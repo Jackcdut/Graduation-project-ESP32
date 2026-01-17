@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c7be5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00d9ff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff7b00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff0090;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 外圆环 -->
+  <circle cx="50" cy="50" r="45" fill="none" stroke="url(#grad1)" stroke-width="3" opacity="0.8"/>
+
+  <!-- 数据图表柱状图 -->
+  <rect x="25" y="60" width="8" height="25" fill="url(#grad1)" rx="2"/>
+  <rect x="37" y="45" width="8" height="40" fill="url(#grad1)" rx="2"/>
+  <rect x="49" y="35" width="8" height="50" fill="url(#grad2)" rx="2"/>
+  <rect x="61" y="50" width="8" height="35" fill="url(#grad1)" rx="2"/>
+
+  <!-- 数据点连线 -->
+  <polyline points="29,65 41,50 53,40 65,55" fill="none" stroke="url(#grad2)" stroke-width="2.5" opacity="0.9"/>
+
+  <!-- 数据点 -->
+  <circle cx="29" cy="65" r="3" fill="url(#grad2)"/>
+  <circle cx="41" cy="50" r="3" fill="url(#grad2)"/>
+  <circle cx="53" cy="40" r="3" fill="url(#grad2)"/>
+  <circle cx="65" cy="55" r="3" fill="url(#grad2)"/>
+
+  <!-- 中心数学符号 -->
+  <text x="50" y="25" text-anchor="middle" font-family="serif" font-size="16" fill="url(#grad1)" font-weight="bold">∑</text>
+
+  <!-- 装饰性几何元素 -->
+  <polygon points="20,20 30,15 25,25" fill="url(#grad1)" opacity="0.6"/>
+  <polygon points="75,25 85,20 80,30" fill="url(#grad2)" opacity="0.6"/>
+</svg>

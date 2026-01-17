@@ -1,0 +1,73 @@
+/* Font Awesome 图标备用样式 */ 
+.fas, .far, .fab, .fal { 
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 5 Free", FontAwesome, sans-serif !important; 
+    font-weight: 900 !important;
+}
+
+/* 确保图标正常显示 */
+.fas::before, .far::before, .fab::before, .fal::before {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 5 Free", FontAwesome !important;
+    font-weight: 900 !important;
+}
+
+/* 备用图标样式统一 */
+.fas[class*="fa-"]::before {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+}
+
+/* 图标备用内容 - 使用简洁的Unicode符号 */
+.fas.fa-download::before { content: "↓"; }
+.fas.fa-trash-alt::before { content: "⨯"; }
+.fas.fa-trash::before { content: "⨯"; }
+.fas.fa-file-alt::before { content: "□"; }
+.fas.fa-file-csv::before { content: "□"; }
+.fas.fa-file-excel::before { content: "□"; }
+.fas.fa-file-image::before { content: "□"; }
+.fas.fa-file-pdf::before { content: "□"; }
+.fas.fa-question-circle::before { content: "?"; }
+.fas.fa-search-plus::before { content: "+"; }
+.fas.fa-search-minus::before { content: "−"; }
+.fas.fa-search::before { content: "○"; }
+.fas.fa-expand-arrows-alt::before { content: "↕"; }
+.fas.fa-compress-arrows-alt::before { content: "↕"; }
+.fas.fa-expand::before { content: "⊞"; }
+.fas.fa-undo::before { content: "↶"; }
+.fas.fa-water::before { content: "～"; }
+.fas.fa-chart-line::before { content: "╱"; }
+.fas.fa-chart-area::before { content: "▢"; }
+.fas.fa-chart-bar::before { content: "▥"; }
+.fas.fa-chart-pie::before { content: "◗"; }
+.fas.fa-stop::before { content: "■"; }
+.fas.fa-play::before { content: "▶"; }
+.fas.fa-signal::before { content: "▦"; }
+.fas.fa-file-upload::before { content: "↑"; }
+.fas.fa-comment-dots::before { content: "⋯"; }
+.fas.fa-comment-alt::before { content: "◉"; }
+.fas.fa-comment::before { content: "◉"; }
+.fas.fa-comments::before { content: "◉"; }
+.fas.fa-comment-slash::before { content: "◉"; }
+.fas.fa-paper-plane::before { content: "➤"; }
+.fas.fa-check::before { content: "✓"; }
+.fas.fa-check-circle::before { content: "✓"; }
+.fas.fa-times::before { content: "✕"; }
+.fas.fa-cog::before { content: "⚙"; }
+.fas.fa-cogs::before { content: "⚙"; }
+.fas.fa-home::before { content: "⌂"; }
+.fas.fa-user::before { content: "◯"; }
+.fas.fa-envelope::before { content: "✉"; }
+.fas.fa-tag::before { content: "◦"; }
+.fas.fa-clock::before { content: "○"; }
+.fas.fa-wave-square::before { content: "～"; }
+.fas.fa-chevron-down::before { content: "▼"; }
+.fas.fa-chevron-up::before { content: "▲"; }
+.fas.fa-arrows-alt::before { content: "↔"; }
+.fas.fa-arrows-alt-v::before { content: "↕"; }
+.fas.fa-inbox::before { content: "□"; }
+.fas.fa-plus::before { content: "+"; }
+.fas.fa-minus::before { content: "−"; } 

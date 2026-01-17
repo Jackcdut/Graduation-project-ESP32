@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneNet云平台HTTP API集成技术流程图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        /* 流程图容器 */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .flowchart-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        /* 流程节点样式 */
+        .node {
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            min-width: 160px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .node:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .node-start, .node-end {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #fff;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+        
+        .node-process {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+        }
+        
+        .node-decision {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+            transform: rotate(0deg);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            padding: 30px 40px;
+            min-width: 180px;
+        }
+        
+        .node-io {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #fff;
+            transform: skewX(-10deg);
+        }
+        
+        .node-io span {
+            display: block;
+            transform: skewX(10deg);
+        }
+        
+        .node-api {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: #333;
+            border: 2px dashed #e91e63;
+        }
+        
+        .node-data {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: #333;
+            border-radius: 0 20px 0 20px;
+        }
+        
+        .node-storage {
+            background: linear-gradient(135deg, #d299c2, #fef9d7);
+            color: #333;
+            border-radius: 10px 10px 50% 50%;
+            padding-bottom: 25px;
+        }
+        
+        /* 箭头样式 */
+        .arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 12px;
+            padding: 5px 0;
+        }
+        
+        .arrow-down::before {
+            content: '';
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .arrow-down::after {
+            content: '';
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #764ba2;
+        }
+        
+        .arrow-right {
+            flex-direction: row;
+            padding: 0 10px;
+        }
+        
+        .arrow-right::before {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+        }
+        
+        .arrow-right::after {
+            content: '';
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 12px solid #764ba2;
+        }
+        
+        .arrow-label {
+            font-size: 11px;
+            color: #888;
+            margin: 5px 0;
+            font-style: italic;
+        }
+        
+        /* 分支容器 */
+        .branch-container {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .branch-label {
+            font-size: 12px;
+            color: #4caf50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .branch-label.no {
+            color: #f44336;
+        }
+        
+        /* 并行处理 */
+        .parallel-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .parallel-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* 代码块 */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        
+        .code-block .keyword {
+            color: #569cd6;
+        }
+        
+        .code-block .string {
+            color: #ce9178;
+        }
+        
+        .code-block .comment {
+            color: #6a9955;
+        }
+        
+        .code-block .function {
+            color: #dcdcaa;
+        }
+        
+        /* 时序图样式 */
+        .sequence-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 12px;
+        }
+        
+        .sequence-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 120px 1fr 120px;
+            align-items: center;
+            min-height: 60px;
+        }
+        
+        .sequence-entity {
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .sequence-lifeline {
+            width: 2px;
+            background: #ccc;
+            height: 100%;
+            margin: 0 auto;
+        }
+        
+        .sequence-message {
+            position: relative;
+            padding: 8px 15px;
+            font-size: 12px;
+            color: #333;
+        }
+        
+        .sequence-message.right::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+        
+        .sequence-message.right::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid #667eea;
+        }
+        
+        .sequence-message.left::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #4caf50;
+        }
+        
+        .sequence-message.left::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 10px solid #4caf50;
+        }
+        
+        .sequence-message span {
+            position: relative;
+            z-index: 1;
+            background: #fafafa;
+            padding: 2px 8px;
+        }
+        
+        /* 架构图 */
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .arch-layer {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .arch-box {
+            padding: 20px 30px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 200px;
+            transition: transform 0.3s;
+        }
+        
+        .arch-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .arch-box h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .arch-box p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .arch-cloud {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+        }
+        
+        .arch-network {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #fff;
+        }
+        
+        .arch-device {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: #333;
+        }
+        
+        .arch-module {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #fff;
+        }
+        
+        .arch-connector {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+        
+        .arch-connector span {
+            font-size: 24px;
+            color: #667eea;
+        }
+        
+        /* 表格样式 */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .info-table th, .info-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        
+        .info-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .info-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .info-table code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        /* 状态机 */
+        .state-machine {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .state {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 13px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .state-idle {
+            background: linear-gradient(135deg, #bdc3c7, #2c3e50);
+        }
+        
+        .state-activating {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        
+        .state-activated {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+        
+        .state-error {
+            background: linear-gradient(135deg, #eb3349, #f45c43);
+        }
+        
+        .state-transition {
+            position: absolute;
+            font-size: 10px;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .flowchart-row {
+                flex-direction: column;
+            }
+            
+            .branch-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .parallel-container {
+                flex-direction: column;
+            }
+            
+            .sequence-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            body {
+                background: #fff;
+                padding: 10px;
+            }
+            
+            .section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📡 OneNet云平台HTTP API集成技术流程图</h1>
+        
+        <!-- 系统架构图 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">1</div>
+                系统整体架构
+            </div>
+            <div class="architecture">
+                <div class="arch-layer">
+                    <div class="arch-box arch-cloud">
+                        <h4>☁️ OneNet云平台</h4>
+                        <p>open.iot.10086.cn</p>
+                        <p>iot-api.heclouds.com</p>
+                    </div>
+                </div>
+                <div class="arch-connector"><span>⬇️ HTTPS (443) ⬆️</span></div>
+                <div class="arch-layer">
+                    <div class="arch-box arch-network">
+                        <h4>🌐 网络层</h4>
+                        <p>Wi-Fi (ESP32-C6)</p>
+                        <p>SDIO通信</p>
+                    </div>
+                </div>
+                <div class="arch-connector"><span>⬇️ ESP-Hosted ⬆️</span></div>
+                <div class="arch-layer">
+                    <div class="arch-box arch-module">
+                        <h4>📦 cloud_manager</h4>
+                        <p>设备激活管理</p>
+                        <p>上传队列调度</p>
+                    </div>
+                    <div class="arch-box arch-module">
+                        <h4>🔐 activation_server</h4>
+                        <p>AP热点配网</p>
+                        <p>HTTP激活服务</p>
+                    </div>
+                    <div class="arch-box arch-module">
+                        <h4>📤 wifi_onenet</h4>
+                        <p>HTTP API封装</p>
+                        <p>Token认证</p>
+                    </div>
+                </div>
+                <div class="arch-connector"><span>⬇️ API调用 ⬆️</span></div>
+                <div class="arch-layer">
+                    <div class="arch-box arch-device">
+                        <h4>🔧 ESP32-P4主控</h4>
+                        <p>业务逻辑处理</p>
+                        <p>数据采集与存储</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设备激活流程图 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">2</div>
+                设备自动注册与激活流程
+            </div>
+            <div class="flowchart">
+                <div class="node node-start">开始：设备上电</div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-process">初始化云管理模块<br><small>cloud_manager_init()</small></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-io"><span>从NVS读取激活状态</span></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-decision">设备已激活?</div>
+                
+                <div class="branch-container" style="margin-top: 20px;">
+                    <div class="branch">
+                        <div class="branch-label">是 ✓</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-io"><span>加载设备凭证<br>did, pid, sec_key</span></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process">初始化HTTP客户端<br><small>onenet_http_init()</small></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-api">调用设备上线API<br><small>POST /device/online</small></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-end">进入正常工作模式</div>
+                    </div>
+                    
+                    <div class="branch">
+                        <div class="branch-label no">否 ✗</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process">启动AP热点模式<br><small>SSID: ExDebugTool_Config</small></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process">启动HTTP配置服务器<br><small>192.168.4.1:80</small></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-io"><span>等待用户访问<br>激活页面</span></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process">用户点击"激活设备"</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-api">调用设备创建API<br><small>POST /device/create</small></div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-decision">注册成功?</div>
+                        <div style="display: flex; gap: 40px; margin-top: 15px;">
+                            <div style="text-align: center;">
+                                <div class="branch-label">是 ✓</div>
+                                <div class="arrow arrow-down"></div>
+                                <div class="node node-storage">保存凭证到NVS</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="branch-label no">否 ✗</div>
+                                <div class="arrow arrow-down"></div>
+                                <div class="node node-process" style="background: linear-gradient(135deg, #eb3349, #f45c43);">显示错误信息<br>等待重试</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-block">
+<span class="comment">// 设备自动注册核心代码 (cloud_activation_server.c)</span>
+<span class="keyword">static</span> esp_err_t <span class="function">register_device_onenet</span>(<span class="keyword">const char</span> *device_name, ...) {
+    <span class="comment">// 1. 构建请求体</span>
+    cJSON *body = <span class="function">cJSON_CreateObject</span>();
+    <span class="function">cJSON_AddStringToObject</span>(body, <span class="string">"product_id"</span>, ONENET_HTTP_PRODUCT_ID);
+    <span class="function">cJSON_AddStringToObject</span>(body, <span class="string">"device_name"</span>, device_name);
+    
+    <span class="comment">// 2. 生成产品级Token (HMAC-MD5)</span>
+    <span class="function">cloud_activation_generate_token</span>(product_id, access_key, auth_token, <span class="keyword">sizeof</span>(auth_token));
+    
+    <span class="comment">// 3. 发送HTTPS请求到 iot-api.heclouds.com/device/create</span>
+    <span class="function">esp_http_client_set_header</span>(client, <span class="string">"authorization"</span>, auth_token);
+    <span class="function">esp_http_client_perform</span>(client);
+    
+    <span class="comment">// 4. 解析响应，获取 did, pid, sec_key</span>
+    cJSON *data = <span class="function">cJSON_GetObjectItem</span>(resp_json, <span class="string">"data"</span>);
+    <span class="comment">// did: 设备唯一ID, sec_key: 设备密钥(用于后续认证)</span>
+}
+            </div>
+        </div>
+        
+        <!-- Token认证流程 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">3</div>
+                双层Token认证机制
+            </div>
+            
+            <table class="info-table">
+                <tr>
+                    <th>认证层级</th>
+                    <th>使用场景</th>
+                    <th>签名算法</th>
+                    <th>密钥来源</th>
+                    <th>有效期</th>
+                </tr>
+                <tr>
+                    <td><strong>产品级Token</strong></td>
+                    <td>设备注册、批量管理</td>
+                    <td><code>HMAC-MD5</code></td>
+                    <td>产品Access Key</td>
+                    <td>1年</td>
+                </tr>
+                <tr>
+                    <td><strong>设备级Token</strong></td>
+                    <td>数据上报、状态更新</td>
+                    <td><code>HMAC-SHA256</code></td>
+                    <td>设备sec_key</td>
+                    <td>1年</td>
+                </tr>
+            </table>
+            
+            <div class="flowchart" style="margin-top: 20px;">
+                <div style="display: flex; gap: 60px; flex-wrap: wrap; justify-content: center;">
+                    <!-- 产品级Token -->
+                    <div style="flex: 1; min-width: 300px;">
+                        <h4 style="text-align: center; color: #667eea; margin-bottom: 15px;">产品级Token生成流程</h4>
+                        <div class="flowchart">
+                            <div class="node node-io"><span>输入: product_id, access_key</span></div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">构建签名字符串<br><small>{expire}\nmd5\nproducts/{pid}\n2018-10-31</small></div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">Base64解码 access_key</div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process" style="background: linear-gradient(135deg, #f093fb, #f5576c);">HMAC-MD5 签名</div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">Base64编码签名结果</div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">URL编码特殊字符<br><small>+ → %2B, / → %2F, = → %3D</small></div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-data">输出: 产品级Token</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 设备级Token -->
+                    <div style="flex: 1; min-width: 300px;">
+                        <h4 style="text-align: center; color: #764ba2; margin-bottom: 15px;">设备级Token生成流程</h4>
+                        <div class="flowchart">
+                            <div class="node node-io"><span>输入: product_id, device_name, sec_key</span></div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">构建签名字符串<br><small>{expire}\nsha256\nproducts/{pid}/devices/{name}\n2018-10-31</small></div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">Base64解码 sec_key</div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process" style="background: linear-gradient(135deg, #11998e, #38ef7d);">HMAC-SHA256 签名</div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">Base64编码签名结果</div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-process">URL编码特殊字符<br><small>+ → %2B, / → %2F, = → %3D</small></div>
+                            <div class="arrow arrow-down"></div>
+                            <div class="node node-data">输出: 设备级Token</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-block">
+<span class="comment">// Token格式</span>
+version=2018-10-31&res=products%2F{pid}%2Fdevices%2F{device_name}&et={expire_timestamp}&method=sha256&sign={url_encoded_signature}
+
+<span class="comment">// 设备级Token生成核心代码 (wifi_onenet.c)</span>
+<span class="keyword">static</span> esp_err_t <span class="function">generate_device_token</span>(...) {
+    <span class="comment">// 签名字符串: {expire}\n{method}\n{resource}\n{version}</span>
+    <span class="function">snprintf</span>(string_to_sign, <span class="keyword">sizeof</span>(string_to_sign),
+             <span class="string">"%lld\nsha256\nproducts/%s/devices/%s\n2018-10-31"</span>,
+             expire_time, product_id, device_name);
+    
+    <span class="comment">// Base64解码密钥</span>
+    <span class="function">mbedtls_base64_decode</span>(key_decoded, ..., sec_key, <span class="function">strlen</span>(sec_key));
+    
+    <span class="comment">// HMAC-SHA256签名</span>
+    <span class="function">mbedtls_md_hmac_starts</span>(&ctx, key_decoded, key_decoded_len);
+    <span class="function">mbedtls_md_hmac_update</span>(&ctx, string_to_sign, <span class="function">strlen</span>(string_to_sign));
+    <span class="function">mbedtls_md_hmac_finish</span>(&ctx, hmac);
+}
+            </div>
+        </div>
+
+        <!-- 数据上报流程 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">4</div>             HTTP数据上报流程
+            </div>
+            
+            <div class="flowchart">
+                <div class="node node-start">数据上报请求</div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-decision">WiFi已连接?</div>
+                <div style="display: flex; gap: 80px; margin-top: 15px; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div class="branch-label no">否</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process" style="background: linear-gradient(135deg, #eb3349, #f45c43);">返回错误<br>ESP_ERR_WIFI_NOT_CONNECT</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="branch-label">是</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-decision">设备已激活?</div>
+                    </div>
+                </div>
+                
+                <div class="arrow arrow-down" style="margin-top: 20px;"></div>
+                
+                <div class="node node-io"><span>获取设备凭证<br>cloud_manager_get_device_credentials()</span></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-process">生成设备级Token<br><small>generate_device_token()</small></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-data">构造OneJSON请求体</div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-process">URL编码Topic参数<br><small>$sys/{pid}/{name}/thing/property/post</small></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-api">发送HTTPS POST请求<br><small>open.iot.10086.cn:443</small></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-decision">响应码 = "succ"?</div>
+                <div style="display: flex; gap: 60px; margin-top: 15px; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div class="branch-label">是</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-end">上报成功</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="branch-label no">否</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process" style="background: linear-gradient(135deg, #f093fb, #f5576c);">解析错误码<br>记录日志</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 style="margin: 25px 0 15px; color: #333;">OneJSON数据格式规范</h4>
+            <div class="code-block">
+<span class="comment">// 属性上报请求格式</span>
+{
+    <span class="string">"id"</span>: <span class="string">"消息唯一ID"</span>,
+    <span class="string">"version"</span>: <span class="string">"1.0"</span>,
+    <span class="string">"params"</span>: {
+        <span class="string">"属性标识符"</span>: {
+            <span class="string">"value"</span>: 属性值,
+            <span class="string">"time"</span>: 时间戳(可选)
+        }
+    }
+}
+
+<span class="comment">// 示例: 上报示波器数据</span>
+{
+    <span class="string">"id"</span>: <span class="string">"1702900000000"</span>,
+    <span class="string">"version"</span>: <span class="string">"1.0"</span>,
+    <span class="string">"params"</span>: {
+        <span class="string">"Oscilloscope_data"</span>: {
+            <span class="string">"value"</span>: 3.14
+        }
+    }
+}
+
+<span class="comment">// WiFi定位数据上报 (系统功能点)</span>
+{
+    <span class="string">"id"</span>: <span class="string">"123"</span>,
+    <span class="string">"version"</span>: <span class="string">"1.0"</span>,
+    <span class="string">"params"</span>: {
+        <span class="string">"$OneNET_LBS_WIFI"</span>: {
+            <span class="string">"value"</span>: {
+                <span class="string">"macs"</span>: <span class="string">"AA:BB:CC:DD:EE:FF,-65|11:22:33:44:55:66,-70"</span>,
+                <span class="string">"mmac"</span>: <span class="string">"AA:BB:CC:DD:EE:FF,-65,MyWiFi"</span>,
+                <span class="string">"smac"</span>: <span class="string">"设备MAC地址"</span>
+            }
+        }
+    }
+}
+            </div>
+        </div>
+        
+        <!-- 时序图 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">5</div>
+                设备激活时序图
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <svg viewBox="0 0 900 650" style="width: 100%; max-width: 900px; margin: 0 auto; display: block;">
+                    <!-- 实体 -->
+                    <rect x="50" y="20" width="100" height="40" rx="8" fill="url(#grad1)"/>
+                    <text x="100" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">用户手机</text>
+                    
+                    <rect x="250" y="20" width="100" height="40" rx="8" fill="url(#grad2)"/>
+                    <text x="300" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">ESP32设备</text>
+                    
+                    <rect x="450" y="20" width="120" height="40" rx="8" fill="url(#grad3)"/>
+                    <text x="510" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">HTTP服务器</text>
+                    
+                    <rect x="680" y="20" width="120" height="40" rx="8" fill="url(#grad4)"/>
+                    <text x="740" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">OneNet云平台</text>
+                    
+                    <!-- 生命线 -->
+                    <line x1="100" y1="60" x2="100" y2="620" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="300" y1="60" x2="300" y2="620" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="510" y1="60" x2="510" y2="620" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="740" y1="60" x2="740" y2="620" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- 消息1: 连接AP -->
+                    <line x1="100" y1="100" x2="300" y2="100" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="200" y="90" text-anchor="middle" font-size="11" fill="#333">1. 连接WiFi热点</text>
+                    <text x="200" y="115" text-anchor="middle" font-size="10" fill="#888">SSID: ExDebugTool_Config</text>
+                    
+                    <!-- 消息2: 访问页面 -->
+                    <line x1="100" y1="160" x2="510" y2="160" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="305" y="150" text-anchor="middle" font-size="11" fill="#333">2. GET http://192.168.4.1/</text>
+                    
+                    <!-- 消息3: 返回HTML -->
+                    <line x1="510" y1="200" x2="100" y2="200" stroke="#4caf50" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                    <text x="305" y="190" text-anchor="middle" font-size="11" fill="#333">3. 返回激活页面HTML</text>
+                    
+                    <!-- 消息4: 点击激活 -->
+                    <line x1="100" y1="260" x2="510" y2="260" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="305" y="250" text-anchor="middle" font-size="11" fill="#333">4. POST /activate</text>
+                    <text x="305" y="275" text-anchor="middle" font-size="10" fill="#888">用户点击"激活设备"按钮</text>
+                    
+                    <!-- 激活框 -->
+                    <rect x="280" y="300" width="40" height="180" fill="#e3f2fd" stroke="#667eea" stroke-width="1"/>
+                    <rect x="490" y="300" width="40" height="180" fill="#e3f2fd" stroke="#667eea" stroke-width="1"/>
+                    
+                    <!-- 消息5: 调用OneNet API -->
+                    <line x1="510" y1="330" x2="740" y2="330" stroke="#f44336" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                    <text x="625" y="320" text-anchor="middle" font-size="11" fill="#333">5. POST /device/create</text>
+                    <text x="625" y="345" text-anchor="middle" font-size="10" fill="#888">携带产品级Token</text>
+                    
+                    <!-- 消息6: 返回设备凭证 -->
+                    <line x1="740" y1="390" x2="510" y2="390" stroke="#4caf50" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                    <text x="625" y="380" text-anchor="middle" font-size="11" fill="#333">6. 返回 {did, pid, sec_key}</text>
+                    
+                    <!-- 消息7: 保存NVS -->
+                    <rect x="285" y="420" width="30" height="30" fill="#fff3e0" stroke="#ff9800" stroke-width="1"/>
+                    <text x="300" y="465" text-anchor="middle" font-size="10" fill="#333">7. 保存到NVS</text>
+                    
+                    <!-- 消息8: 返回成功 -->
+                    <line x1="510" y1="510" x2="100" y2="510" stroke="#4caf50" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                    <text x="305" y="500" text-anchor="middle" font-size="11" fill="#333">8. 返回激活成功JSON</text>
+                    <text x="305" y="525" text-anchor="middle" font-size="10" fill="#888">{success: true, device_id: "xxx"}</text>
+                    
+                    <!-- 消息9: 显示结果 -->
+                    <rect x="80" y="560" width="40" height="30" fill="#e8f5e9" stroke="#4caf50" stroke-width="1"/>
+                    <text x="100" y="610" text-anchor="middle" font-size="10" fill="#333">9. 显示激活成功</text>
+                    
+                    <!-- 渐变定义 -->
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea"/>
+                            <stop offset="100%" style="stop-color:#764ba2"/>
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#11998e"/>
+                            <stop offset="100%" style="stop-color:#38ef7d"/>
+                        </linearGradient>
+                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#fa709a"/>
+                            <stop offset="100%" style="stop-color:#fee140"/>
+                        </linearGradient>
+                        <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4facfe"/>
+                            <stop offset="100%" style="stop-color:#00f2fe"/>
+                        </linearGradient>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#667eea"/>
+                        </marker>
+                        <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#4caf50"/>
+                        </marker>
+                        <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#f44336"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- 设备状态机 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">6</div>
+                设备激活状态机
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <svg viewBox="0 0 800 300" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
+                    <!-- 状态节点 -->
+                    <circle cx="100" cy="150" r="60" fill="url(#state-idle)"/>
+                    <text x="100" y="145" text-anchor="middle" fill="white" font-size="11" font-weight="bold">NOT_ACTIVATED</text>
+                    <text x="100" y="162" text-anchor="middle" fill="white" font-size="10">未激活</text>
+                    
+                    <circle cx="300" cy="150" r="60" fill="url(#state-activating)"/>
+                    <text x="300" y="145" text-anchor="middle" fill="white" font-size="11" font-weight="bold">ACTIVATING</text>
+                    <text x="300" y="162" text-anchor="middle" fill="white" font-size="10">激活中</text>
+                    
+                    <circle cx="500" cy="150" r="60" fill="url(#state-activated)"/>
+                    <text x="500" y="145" text-anchor="middle" fill="white" font-size="11" font-weight="bold">ACTIVATED</text>
+                    <text x="500" y="162" text-anchor="middle" fill="white" font-size="10">已激活</text>
+                    
+                    <circle cx="700" cy="150" r="60" fill="url(#state-error)"/>
+                    <text x="700" y="145" text-anchor="middle" fill="white" font-size="11" font-weight="bold">ERROR</text>
+                    <text x="700" y="162" text-anchor="middle" fill="white" font-size="10">错误</text>
+                    
+                    <!-- 转换箭头 -->
+                    <path d="M 160 150 L 230 150" stroke="#333" stroke-width="2" fill="none" marker-end="url(#arrow-black)"/>
+                    <text x="195" y="140" text-anchor="middle" font-size="9" fill="#666">start_activation()</text>
+                    
+                    <path d="M 360 150 L 430 150" stroke="#4caf50" stroke-width="2" fill="none" marker-end="url(#arrow-green2)"/>
+                    <text x="395" y="140" text-anchor="middle" font-size="9" fill="#4caf50">注册成功</text>
+                    
+                    <path d="M 340 100 Q 500 30 660 100" stroke="#f44336" stroke-width="2" fill="none" marker-end="url(#arrow-red2)"/>
+                    <text x="500" y="50" text-anchor="middle" font-size="9" fill="#f44336">注册失败</text>
+                    
+                    <path d="M 660 200 Q 400 280 140 200" stroke="#ff9800" stroke-width="2" fill="none" marker-end="url(#arrow-orange)"/>
+                    <text x="400" y="270" text-anchor="middle" font-size="9" fill="#ff9800">clear_activation() / 重试</text>
+                    
+                    <!-- 自循环: 已激活状态 -->
+                    <path d="M 540 110 Q 580 60 540 110" stroke="#4caf50" stroke-width="1.5" fill="none"/>
+                    <text x="570" y="75" text-anchor="middle" font-size="8" fill="#4caf50">数据上报</text>
+                    
+                    <defs>
+                        <linearGradient id="state-idle" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#bdc3c7"/>
+                            <stop offset="100%" style="stop-color:#2c3e50"/>
+                        </linearGradient>
+                        <linearGradient id="state-activating" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f093fb"/>
+                            <stop offset="100%" style="stop-color:#f5576c"/>
+                        </linearGradient>
+                        <linearGradient id="state-activated" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#11998e"/>
+                            <stop offset="100%" style="stop-color:#38ef7d"/>
+                        </linearGradient>
+                        <linearGradient id="state-error" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#eb3349"/>
+                            <stop offset="100%" style="stop-color:#f45c43"/>
+                        </linearGradient>
+                        <marker id="arrow-black" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                        </marker>
+                        <marker id="arrow-green2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#4caf50"/>
+                        </marker>
+                        <marker id="arrow-red2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#f44336"/>
+                        </marker>
+                        <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#ff9800"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            
+            <table class="info-table" style="margin-top: 20px;">
+                <tr>
+                    <th>状态</th>
+                    <th>枚举值</th>
+                    <th>描述</th>
+                    <th>触发条件</th>
+                </tr>
+                <tr>
+                    <td><span style="color: #2c3e50;">●</span> NOT_ACTIVATED</td>
+                    <td><code>0</code></td>
+                    <td>设备未激活，需要进行云端注册</td>
+                    <td>初始状态 / 清除激活</td>
+                </tr>
+                <tr>
+                    <td><span style="color: #f5576c;">●</span> ACTIVATING</td>
+                    <td><code>1</code></td>
+                    <td>正在进行设备注册</td>
+                    <td>调用 start_activation()</td>
+                </tr>
+                <tr>
+                    <td><span style="color: #38ef7d;">●</span> ACTIVATED</td>
+                    <td><code>2</code></td>
+                    <td>设备已激活，可正常上报数据</td>
+                    <td>OneNet注册成功</td>
+                </tr>
+                <tr>
+                    <td><span style="color: #f45c43;">●</span> ERROR</td>
+                    <td><code>3</code></td>
+                    <td>激活过程出错</td>
+                    <td>网络错误 / API返回失败</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 文件上传流程 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">7</div>
+                文件上传队列管理流程
+            </div>
+            
+            <div class="flowchart">
+                <div class="node node-start">创建上传任务</div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-io"><span>检查文件是否存在<br>stat(file_path)</span></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-decision">文件已上传?<br><small>hash检查</small></div>
+                <div style="display: flex; gap: 60px; margin-top: 15px; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div class="branch-label no">否 (新文件)</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-process">加入上传队列<br><small>status = PENDING</small></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="branch-label">是 (已存在)</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-data">返回已上传状态<br><small>跳过重复上传</small></div>
+                    </div>
+                </div>
+                
+                <div class="arrow arrow-down" style="margin-top: 20px;"></div>
+                
+                <div class="node node-process">cloud_manager_process()<br><small>主循环调度</small></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-decision">有待处理任务?</div>
+                <div class="arrow arrow-down"></div>
+                <div class="arrow-label">是</div>
+                
+                <div class="node node-process">设置状态 UPLOADING<br>调用上传函数</div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-api">HTTP POST 文件数据<br><small>upload_file_data_to_onenet()</small></div>
+                <div class="arrow arrow-down"></div>
+                
+                <div class="node node-decision">上传成功?</div>
+                <div style="display: flex; gap: 80px; margin-top: 15px; justify-content: center;">
+                    <div style="text-align: center;">
+                        <div class="branch-label">是</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-storage">标记文件已上传<br>更新统计信息</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-end">status = SUCCESS</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="branch-label no">否</div>
+                        <div class="arrow arrow-down"></div>
+                        <div class="node node-decision">重试次数 < 3?</div>
+                        <div style="display: flex; gap: 30px; margin-top: 10px;">
+                            <div style="text-align: center;">
+                                <div class="branch-label">是</div>
+                                <div class="arrow arrow-down"></div>
+                                <div class="node node-process" style="font-size: 12px;">retry_count++<br>重新入队</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="branch-label no">否</div>
+                                <div class="arrow arrow-down"></div>
+                                <div class="node node-process" style="background: linear-gradient(135deg, #eb3349, #f45c43); font-size: 12px;">status = FAILED</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 style="margin: 25px 0 15px; color: #333;">上传任务数据结构</h4>
+            <div class="code-block">
+<span class="keyword">typedef struct</span> {
+    uint32_t task_id;               <span class="comment">// 任务唯一标识</span>
+    <span class="keyword">char</span> file_path[64];             <span class="comment">// SD卡文件路径</span>
+    <span class="keyword">char</span> file_name[32];             <span class="comment">// 文件名</span>
+    uint32_t file_size;             <span class="comment">// 文件大小(字节)</span>
+    upload_file_type_t file_type;   <span class="comment">// 文件类型: CSV/LOG/CONFIG/OTHER</span>
+    upload_status_t status;         <span class="comment">// 状态: PENDING/UPLOADING/SUCCESS/FAILED/CANCELLED</span>
+    uint8_t retry_count;            <span class="comment">// 重试次数 (最大3次)</span>
+    uint32_t progress;              <span class="comment">// 上传进度 (0-100)</span>
+    uint32_t uploaded_bytes;        <span class="comment">// 已上传字节数</span>
+    uint32_t data_points;           <span class="comment">// 数据点数量 (CSV文件)</span>
+    time_t create_time;             <span class="comment">// 任务创建时间</span>
+    time_t complete_time;           <span class="comment">// 任务完成时间</span>
+    <span class="keyword">char</span> error_msg[32];             <span class="comment">// 错误信息</span>
+} upload_task_t;
+
+<span class="comment">// 支持的文件格式</span>
+<span class="comment">// OneNET支持: .jpg .jpeg .png .bmp .gif .webp .tiff .txt .csv</span>
+            </div>
+        </div>
+        
+        <!-- API接口汇总 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">8</div>
+                OneNet HTTP API接口汇总
+            </div>
+            
+            <table class="info-table">
+                <tr>
+                    <th>功能</th>
+                    <th>API端点</th>
+                    <th>方法</th>
+                    <th>认证方式</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>设备注册</td>
+                    <td><code>iot-api.heclouds.com/device/create</code></td>
+                    <td>POST</td>
+                    <td>产品级Token</td>
+                    <td>创建新设备，返回did和sec_key</td>
+                </tr>
+                <tr>
+                    <td>设备上下线</td>
+                    <td><code>open.iot.10086.cn/fuse/http/device/online</code></td>
+                    <td>POST</td>
+                    <td>设备级Token</td>
+                    <td>设置设备在线/离线状态</td>
+                </tr>
+                <tr>
+                    <td>属性上报</td>
+                    <td><code>open.iot.10086.cn/fuse/http/device/thing/property/post</code></td>
+                    <td>POST</td>
+                    <td>设备级Token</td>
+                    <td>上报物模型属性数据</td>
+                </tr>
+                <tr>
+                    <td>事件上报</td>
+                    <td><code>open.iot.10086.cn/fuse/http/device/thing/event/post</code></td>
+                    <td>POST</td>
+                    <td>设备级Token</td>
+                    <td>上报设备事件</td>
+                </tr>
+                <tr>
+                    <td>批量上报</td>
+                    <td><code>open.iot.10086.cn/fuse/http/device/thing/pack/post</code></td>
+                    <td>POST</td>
+                    <td>设备级Token</td>
+                    <td>批量上报多个数据点</td>
+                </tr>
+                <tr>
+                    <td>历史数据</td>
+                    <td><code>open.iot.10086.cn/fuse/http/device/thing/history/post</code></td>
+                    <td>POST</td>
+                    <td>设备级Token</td>
+                    <td>上报历史数据</td>
+                </tr>
+                <tr>
+                    <td>WiFi定位</td>
+                    <td><code>open.iot.10086.cn/fuse-lbs/latest-wifi-location</code></td>
+                    <td>GET</td>
+                    <td>设备级Token</td>
+                    <td>获取WiFi定位结果</td>
+                </tr>
+            </table>
+            
+            <h4 style="margin: 25px 0 15px; color: #333;">HTTP请求头配置</h4>
+            <div class="code-block">
+<span class="comment">// 通用请求头</span>
+Content-Type: application/json
+token: version=2018-10-31&res=products%2F{pid}%2Fdevices%2F{name}&et={expire}&method=sha256&sign={signature}
+
+<span class="comment">// 属性上报URL参数</span>
+?topic=$sys%2F{pid}%2F{device_name}%2Fthing%2Fproperty%2Fpost&protocol=HTTP
+            </div>
+        </div>
+        
+        <!-- 设计优势对比 -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">9</div>
+                HTTP vs MQTT 方案对比
+            </div>
+            
+            <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; padding: 20px; border-radius: 12px 12px 0 0;">
+                        <h4 style="margin: 0;">📡 HTTP方案 (本设计采用)</h4>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 0 0 12px 12px; border: 1px solid #e9ecef;">
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 短连接，按需请求</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 资源消耗低（无需维护长连接）</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 实现简单（标准HTTP库）</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 原生支持文件传输</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">✅ 防火墙友好（80/443端口）</li>
+                            <li style="padding: 8px 0;">✅ 适合低频上报场景</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; padding: 20px; border-radius: 12px 12px 0 0;">
+                        <h4 style="margin: 0;">📨 MQTT方案</h4>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 0 0 12px 12px; border: 1px solid #e9ecef;">
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">⚠️ 长连接，持续保持</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">⚠️ 资源消耗较高（心跳维护）</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">⚠️ 需要MQTT客户端库</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">⚠️ 文件传输需额外处理</li>
+                            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">⚠️ 1883端口可能受限</li>
+                            <li style="padding: 8px 0;">✅ 适合高频实时通信</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 12px; border-left: 4px solid #4caf50;">
+                <h4 style="margin: 0 0 10px; color: #2e7d32;">💡 设计选择理由</h4>
+                <p style="margin: 0; color: #333; line-height: 1.8;">
+                    本项目作为调试工具，数据上报频率相对较低（分钟级），且需要支持测试数据文件的上传存储功能。
+                    HTTP方案不仅满足功能需求，还具有实现简单、资源占用低的优势。
+                    同时，基于HTTP的自动注册机制极大简化了设备部署流程，用户无需手动配置即可完成设备激活。
+                </p>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div style="text-align: center; color: rgba(255,255,255,0.8); padding: 20px; font-size: 13px;">
+            <p>ESP32-P4 ExDebugTool - OneNet云平台HTTP API集成技术文档</p>
+            <p>Generated: 2025-01</p>
+        </div>
+    </div>
+</body>
+</html>
