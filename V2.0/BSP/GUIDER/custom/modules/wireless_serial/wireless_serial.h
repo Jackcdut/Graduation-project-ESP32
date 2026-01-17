@@ -144,6 +144,23 @@ wireless_serial_status_t wireless_serial_get_status(void);
  */
 bool wireless_serial_is_connected(void);
 
+/**
+ * @brief Enable UART passthrough for external devices (e.g., STM32)
+ * 
+ * When enabled, data received from UART will be forwarded to WiFi,
+ * and data received from WiFi will be forwarded to UART.
+ * 
+ * @return esp_err_t ESP_OK on success
+ */
+esp_err_t wireless_serial_enable_uart_passthrough(void);
+
+/**
+ * @brief Disable UART passthrough
+ * 
+ * @return esp_err_t ESP_OK on success
+ */
+esp_err_t wireless_serial_disable_uart_passthrough(void);
+
 /* ==================== UI Interface Functions ==================== */
 /* These functions are called from events_init.c for UI interaction */
 
@@ -180,6 +197,24 @@ void wireless_serial_update_ui_receive(const uint8_t *data, size_t len);
  * @param status New connection status
  */
 void wireless_serial_update_ui_status(wireless_serial_status_t status);
+
+/**
+ * @brief Update IP address display in wireless serial UI
+ * 
+ * Called when WiFi connects or IP changes.
+ * 
+ * @param ip_address IP address string (e.g., "192.168.1.100")
+ * @param port TCP port number
+ */
+void wireless_serial_update_ip_display(const char *ip_address, uint16_t port);
+
+/**
+ * @brief Update IP display when wireless serial screen is loaded
+ * 
+ * Called automatically when entering the wireless serial screen.
+ * Checks current WiFi status and updates IP display accordingly.
+ */
+void wireless_serial_update_ip_on_screen_load(void);
 
 #ifdef __cplusplus
 }

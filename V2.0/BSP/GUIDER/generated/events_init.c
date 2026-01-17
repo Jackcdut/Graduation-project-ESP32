@@ -44,6 +44,9 @@
 /* BSP includes for backlight control */
 #include "bsp/esp32_p4_function_ev_board.h"
 
+/* Wireless Serial module */
+#include "wireless_serial.h"
+
 /* WiFi scan check timer callback - NON-BLOCKING version */
 static void wifi_scan_check_timer_cb(lv_timer_t *timer)
 {
@@ -2187,7 +2190,11 @@ static void scrWirelessSerial_event_handler (lv_event_t *e)
 	switch (code) {
 	case LV_EVENT_SCREEN_LOADED:
 	{
-		// Screen loaded - no animation needed for new design
+		// Update IP display when screen loads
+		wireless_serial_update_ip_on_screen_load();
+		
+		// Start TCP server automatically
+		wireless_serial_start_server();
 		break;
 	}
 	default:
@@ -2390,22 +2397,21 @@ static void scrWirelessSerial_btnClear_event_handler (lv_event_t *e)
 		if (text != NULL && strlen(text) > 0) {
 			// Prepare data to send
 			char send_buffer[512];
-			size_t send_len = 0;
+			size_t send_len;
 
+			// Always send as ASCII (HEX conversion not implemented)
+			send_len = snprintf(send_buffer, sizeof(send_buffer), "%s%s",
+			                    text, ws_send_newline ? "\r\n" : "");
+			
 			if (ws_hex_send) {
-				// Convert hex string to bytes
-				// TODO: Implement hex string to bytes conversion
-				ESP_LOGI("WS_SEND", "Sending HEX: %s", text);
+				ESP_LOGI("WS_SEND", "Sending (HEX mode): %s", text);
 			} else {
-				// Send as ASCII
-				send_len = snprintf(send_buffer, sizeof(send_buffer), "%s%s",
-				                    text, ws_send_newline ? "\r\n" : "");
-				ESP_LOGI("WS_SEND", "Sending ASCII: %s", send_buffer);
+				ESP_LOGI("WS_SEND", "Sending (ASCII mode): %s", text);
 			}
 
-			// ESP32 Integration Point: Send data via UART
-			// extern void wireless_serial_send_data(const char *data, size_t len);
-			// wireless_serial_send_data(send_buffer, send_len);
+			// ESP32 Integration Point: Send data via WiFi
+			extern void wireless_serial_send_data(const char *data, size_t len);
+			wireless_serial_send_data(send_buffer, send_len);
 
 			// Optionally clear send textarea after sending
 			// lv_textarea_set_text(guider_ui.scrWirelessSerial_textareaSend, "");
@@ -4024,4 +4030,3 @@ void events_init_scrOscilloscope(lv_ui *ui)
 	lv_obj_add_event_cb(ui->scrOscilloscope_contCoupling, scrOscilloscope_contCoupling_event_handler, LV_EVENT_ALL, ui);
 	lv_obj_add_event_cb(ui->scrOscilloscope_contTriggerMode, scrOscilloscope_contTriggerMode_event_handler, LV_EVENT_ALL, ui);
 }
-

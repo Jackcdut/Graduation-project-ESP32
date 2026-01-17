@@ -39,7 +39,7 @@ void setup_scr_scrWirelessSerial(lv_ui *ui)
 	lv_obj_set_style_border_width(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrWirelessSerial_labelTitle, lv_color_hex(0x404040), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrWirelessSerial_labelTitle, &lv_font_montserratMedium_26, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrWirelessSerial_labelTitle, &lv_font_ShanHaiZhongXiaYeWuYuW_45, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrWirelessSerial_labelTitle, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -50,6 +50,29 @@ void setup_scr_scrWirelessSerial(lv_ui *ui)
 	lv_obj_set_style_pad_bottom(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrWirelessSerial_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+	//Write codes scrWirelessSerial_labelIPAddress - IP address display in top-right corner
+	ui->scrWirelessSerial_labelIPAddress = lv_label_create(ui->scrWirelessSerial);
+	lv_label_set_text(ui->scrWirelessSerial_labelIPAddress, "IP: Connecting...");
+	lv_label_set_long_mode(ui->scrWirelessSerial_labelIPAddress, LV_LABEL_LONG_WRAP);
+	lv_obj_set_pos(ui->scrWirelessSerial_labelIPAddress, 530, 20);  // Top-right corner, moved down 5px
+	lv_obj_set_size(ui->scrWirelessSerial_labelIPAddress, 250, 28);
+
+	//Write style for scrWirelessSerial_labelIPAddress
+	lv_obj_set_style_border_width(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->scrWirelessSerial_labelIPAddress, lv_color_hex(0x2196F3), LV_PART_MAIN|LV_STATE_DEFAULT);  // Blue color
+	lv_obj_set_style_text_font(ui->scrWirelessSerial_labelIPAddress, &lv_font_ShanHaiZhongXiaYeWuYuW_24, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_opa(ui->scrWirelessSerial_labelIPAddress, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_letter_space(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_line_space(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_align(ui->scrWirelessSerial_labelIPAddress, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_top(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_right(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_bottom(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_left(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_width(ui->scrWirelessSerial_labelIPAddress, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes scrWirelessSerial_btnBack - using Settings page style
 	ui->scrWirelessSerial_btnBack = lv_btn_create(ui->scrWirelessSerial);
@@ -102,7 +125,7 @@ void setup_scr_scrWirelessSerial(lv_ui *ui)
 
 	//Write style for scrWirelessSerial_textareaReceive - white card, no border
 	lv_obj_set_style_text_color(ui->scrWirelessSerial_textareaReceive, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrWirelessSerial_textareaReceive, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);  // Larger font
+	lv_obj_set_style_text_font(ui->scrWirelessSerial_textareaReceive, &lv_font_montserratMedium_20, LV_PART_MAIN|LV_STATE_DEFAULT);  // Larger font
 	lv_obj_set_style_text_opa(ui->scrWirelessSerial_textareaReceive, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrWirelessSerial_textareaReceive, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrWirelessSerial_textareaReceive, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -384,4 +407,3 @@ void setup_scr_scrWirelessSerial(lv_ui *ui)
 	//Init events for screen.
 	events_init_scrWirelessSerial(ui);
 }
-

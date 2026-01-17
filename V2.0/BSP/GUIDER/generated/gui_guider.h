@@ -259,6 +259,7 @@ typedef struct
 	lv_obj_t *scrWirelessSerial;
 	bool scrWirelessSerial_del;
 	lv_obj_t *scrWirelessSerial_labelTitle;
+	lv_obj_t *scrWirelessSerial_labelIPAddress;  // IP address display in top-right corner
 	lv_obj_t *scrWirelessSerial_btnBack;
 	lv_obj_t *scrWirelessSerial_btnBack_label;
 	lv_obj_t *scrWirelessSerial_textareaReceive;  // WiFi list display

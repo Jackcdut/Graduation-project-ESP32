@@ -25,6 +25,7 @@
 #include "esp_err.h"
 #include "sdcard_manager.h"
 #include "cloud_manager.h"
+#include "esp_netif.h"
 
 /* wifi_onenet.h already includes all necessary type definitions */
 /* No need to redefine types here */
@@ -280,10 +281,27 @@ static void wifi_status_poll_timer_cb(lv_timer_t * timer)
         if (connected) {
             ESP_LOGI(WEATHER_TAG, "WiFi connected, starting weather auto-update...");
             weather_api_start_auto_update();
+            
+            /* 获取并更新 IP 地址显示 */
+            extern void wireless_serial_update_ip_display(const char *, uint16_t);
+            esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+            if (netif) {
+                esp_netif_ip_info_t ip_info;
+                if (esp_netif_get_ip_info(netif, &ip_info) == ESP_OK) {
+                    char ip_str[16];
+                    snprintf(ip_str, sizeof(ip_str), IPSTR, IP2STR(&ip_info.ip));
+                    ESP_LOGI("WIRELESS_SERIAL", "WiFi IP: %s", ip_str);
+                    wireless_serial_update_ip_display(ip_str, 8888);
+                }
+            }
         } else {
             /* WiFi断开时停止天气更新 */
             ESP_LOGI(WEATHER_TAG, "WiFi disconnected, stopping weather auto-update");
             weather_api_stop_auto_update();
+            
+            /* 更新 IP 显示为断开状态 */
+            extern void wireless_serial_update_ip_display(const char *, uint16_t);
+            wireless_serial_update_ip_display(NULL, 0);
             
             /* WiFi断开时设置设备离线状态（本地） */
             if (g_onenet_enabled && cloud_manager_is_activated()) {
@@ -703,6 +721,26 @@ void custom_init(lv_ui *ui)
 
     /* 截屏功能在 main.c 中初始化，这里不再重复初始化 */
     /* screenshot_init() is now called in main.c before custom_init() */
+
+    /* 初始化无线串口模块 */
+    ESP_LOGI("WIRELESS_SERIAL", "Initializing Wireless Serial...");
+    extern esp_err_t wireless_serial_init(void*, void*);
+    extern esp_err_t wireless_serial_start_server(void);
+    esp_err_t ws_ret = wireless_serial_init(NULL, NULL);
+    if (ws_ret == ESP_OK) {
+        ESP_LOGI("WIRELESS_SERIAL", "Wireless Serial initialized successfully");
+        
+        /* 自动启动 TCP Server（用于快速测试） */
+        ESP_LOGI("WIRELESS_SERIAL", "Auto-starting TCP Server on port 8888...");
+        esp_err_t server_ret = wireless_serial_start_server();
+        if (server_ret == ESP_OK) {
+            ESP_LOGI("WIRELESS_SERIAL", "TCP Server started successfully");
+        } else {
+            ESP_LOGW("WIRELESS_SERIAL", "Failed to start TCP Server: %s", esp_err_to_name(server_ret));
+        }
+    } else {
+        ESP_LOGW("WIRELESS_SERIAL", "Wireless Serial init failed: %s", esp_err_to_name(ws_ret));
+    }
 }
 
 
