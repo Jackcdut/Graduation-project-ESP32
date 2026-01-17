@@ -1,0 +1,46 @@
+# ESP-IDF Build Files
+build/
+build_slave/
+sdkconfig.old
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+
+# Dependencies (managed by ESP-IDF component manager)
+managed_components/.component_hash
+dependencies.lock
+
+# Compiled binaries
+*.bin
+*.elf
+*.map
+
+# Editor backup files
+*~
+*.orig

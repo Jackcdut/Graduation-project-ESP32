@@ -1,0 +1,884 @@
+/* 注册页面增强背景效果 */
+
+/* 增强背景容器 */
+.enhanced-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 直接粒子效果 */
+.direct-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    display: block !important;
+}
+
+.particle-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(44, 123, 229, 0.6);
+    border-radius: 50%;
+    animation: particleFloat 8s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(44, 123, 229, 0.3);
+}
+
+/* 粒子位置和动画延迟 */
+.p1 { top: 10%; left: 15%; animation-delay: 0s; }
+.p2 { top: 20%; left: 85%; animation-delay: -1s; }
+.p3 { top: 30%; left: 25%; animation-delay: -2s; }
+.p4 { top: 40%; left: 75%; animation-delay: -3s; }
+.p5 { top: 50%; left: 10%; animation-delay: -4s; }
+.p6 { top: 60%; left: 90%; animation-delay: -5s; }
+.p7 { top: 70%; left: 35%; animation-delay: -6s; }
+.p8 { top: 80%; left: 65%; animation-delay: -7s; }
+.p9 { top: 15%; left: 55%; animation-delay: -1.5s; }
+.p10 { top: 25%; left: 45%; animation-delay: -2.5s; }
+.p11 { top: 35%; left: 5%; animation-delay: -3.5s; }
+.p12 { top: 45%; left: 95%; animation-delay: -4.5s; }
+.p13 { top: 55%; left: 20%; animation-delay: -5.5s; }
+.p14 { top: 65%; left: 80%; animation-delay: -6.5s; }
+.p15 { top: 75%; left: 50%; animation-delay: -7.5s; }
+.p16 { top: 85%; left: 30%; animation-delay: -0.5s; }
+.p17 { top: 5%; left: 70%; animation-delay: -1.2s; }
+.p18 { top: 90%; left: 40%; animation-delay: -2.8s; }
+.p19 { top: 12%; left: 60%; animation-delay: -4.2s; }
+.p20 { top: 88%; left: 15%; animation-delay: -6.8s; }
+
+@keyframes particleFloat {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-10px) scale(0.8);
+        opacity: 0.8;
+    }
+    75% {
+        transform: translateY(-30px) scale(1.1);
+        opacity: 0.4;
+    }
+}
+
+/* 简单背景装饰 */
+.simple-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    display: block !important;
+}
+
+/* 浮动圆圈 */
+.float-circle {
+    position: absolute;
+    border: 2px solid rgba(44, 123, 229, 0.3);
+    border-radius: 50%;
+    animation: circleFloat 12s ease-in-out infinite;
+}
+
+.c1 { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+.c2 { width: 60px; height: 60px; top: 60%; right: 15%; animation-delay: -2s; }
+.c3 { width: 100px; height: 100px; bottom: 30%; left: 20%; animation-delay: -4s; }
+.c4 { width: 40px; height: 40px; top: 80%; right: 25%; animation-delay: -6s; }
+.c5 { width: 70px; height: 70px; top: 40%; left: 80%; animation-delay: -8s; }
+
+@keyframes circleFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+/* 渐变光球 */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(44, 123, 229, 0.2) 0%,
+        rgba(139, 92, 246, 0.1) 50%,
+        transparent 100%);
+    animation: orbGlow 15s ease-in-out infinite;
+    filter: blur(2px);
+}
+
+.g1 { width: 150px; height: 150px; top: 15%; right: 10%; animation-delay: 0s; }
+.g2 { width: 120px; height: 120px; bottom: 25%; left: 15%; animation-delay: -5s; }
+.g3 { width: 100px; height: 100px; top: 70%; right: 30%; animation-delay: -10s; }
+
+@keyframes orbGlow {
+    0%, 100% {
+        transform: scale(1) translate(0px, 0px);
+        opacity: 0.3;
+    }
+    33% {
+        transform: scale(1.2) translate(10px, -15px);
+        opacity: 0.5;
+    }
+    66% {
+        transform: scale(0.8) translate(-10px, -25px);
+        opacity: 0.4;
+    }
+}
+
+/* 数据线条 */
+.data-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(44, 123, 229, 0.4),
+        rgba(0, 217, 126, 0.4),
+        transparent);
+    animation: linePulse 8s ease-in-out infinite;
+}
+
+.d1 { width: 200px; top: 25%; left: 30%; transform: rotate(15deg); animation-delay: 0s; }
+.d2 { width: 150px; top: 65%; right: 20%; transform: rotate(-20deg); animation-delay: -2s; }
+.d3 { width: 180px; bottom: 35%; left: 50%; transform: rotate(45deg); animation-delay: -4s; }
+.d4 { width: 120px; top: 85%; left: 25%; transform: rotate(-10deg); animation-delay: -6s; }
+
+@keyframes linePulse {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scaleX(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scaleX(1.2);
+    }
+}
+
+/* 几何形状 */
+.geo-shape {
+    position: absolute;
+    animation: shapeRotate 10s linear infinite;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid rgba(139, 92, 246, 0.3);
+}
+
+.square {
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 217, 126, 0.3);
+    border: 2px solid rgba(0, 217, 126, 0.5);
+}
+
+.t1 { top: 35%; right: 5%; animation-delay: 0s; }
+.t2 { bottom: 45%; left: 5%; animation-delay: -3s; }
+.s1 { top: 75%; right: 40%; animation-delay: -1s; }
+.s2 { top: 15%; left: 75%; animation-delay: -4s; }
+
+@keyframes shapeRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.3;
+    }
+}
+
+/* 星光效果 */
+.starlight-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 2;
+    display: block !important;
+}
+
+.star-twinkle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: starTwinkle 4s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.st1 { top: 15%; left: 25%; animation-delay: 0s; }
+.st2 { top: 30%; right: 20%; animation-delay: -1s; }
+.st3 { top: 50%; left: 10%; animation-delay: -2s; }
+.st4 { top: 70%; right: 15%; animation-delay: -3s; }
+.st5 { top: 20%; left: 70%; animation-delay: -0.5s; }
+.st6 { top: 80%; left: 40%; animation-delay: -1.5s; }
+.st7 { top: 40%; right: 30%; animation-delay: -2.5s; }
+.st8 { top: 60%; left: 80%; animation-delay: -3.5s; }
+
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+/* 背景渐变层 */
+.background-gradient-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(44, 123, 229, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 217, 126, 0.05) 0%, transparent 50%);
+    animation: gradientShift 20s ease-in-out infinite;
+    display: block !important;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1) rotate(180deg);
+    }
+}
+
+/* 确保所有元素都显示 */
+.direct-particles,
+.simple-decorations,
+.starlight-effects,
+.background-gradient-layer {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 扩展的动态背景形状 */
+.animated-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(44, 123, 229, 0.1), rgba(139, 92, 246, 0.1));
+    animation: floatAndRotate 20s ease-in-out infinite;
+}
+
+.shape1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.shape2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 10%;
+    animation-delay: -5s;
+}
+
+.shape3 {
+    width: 120px;
+    height: 120px;
+    bottom: 20%;
+    left: 15%;
+    animation-delay: -10s;
+}
+
+.shape4 {
+    width: 180px;
+    height: 180px;
+    top: 30%;
+    right: 25%;
+    animation-delay: -15s;
+}
+
+.shape5 {
+    width: 100px;
+    height: 100px;
+    top: 80%;
+    left: 60%;
+    animation-delay: -7s;
+}
+
+.shape6 {
+    width: 160px;
+    height: 160px;
+    top: 5%;
+    right: 5%;
+    animation-delay: -12s;
+}
+
+/* 数据可视化装饰 */
+.data-visualization {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.chart-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(44, 123, 229, 0.3), 
+        rgba(0, 217, 126, 0.3), 
+        transparent);
+    animation: chartPulse 4s ease-in-out infinite;
+}
+
+.chart1 {
+    width: 300px;
+    top: 20%;
+    left: 10%;
+    transform: rotate(15deg);
+    animation-delay: 0s;
+}
+
+.chart2 {
+    width: 250px;
+    top: 70%;
+    right: 15%;
+    transform: rotate(-10deg);
+    animation-delay: -1s;
+}
+
+.chart3 {
+    width: 200px;
+    bottom: 30%;
+    left: 50%;
+    transform: rotate(25deg);
+    animation-delay: -2s;
+}
+
+.data-node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(44, 123, 229, 0.8), transparent);
+    border-radius: 50%;
+    animation: nodePulse 3s ease-in-out infinite;
+}
+
+.node1 { top: 25%; left: 20%; animation-delay: 0s; }
+.node2 { top: 45%; right: 30%; animation-delay: -0.5s; }
+.node3 { bottom: 40%; left: 40%; animation-delay: -1s; }
+.node4 { top: 65%; right: 20%; animation-delay: -1.5s; }
+.node5 { bottom: 20%; right: 45%; animation-delay: -2s; }
+
+/* 几何图形装饰 */
+.geometric-decorations {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-circle {
+    position: absolute;
+    border: 2px solid rgba(44, 123, 229, 0.2);
+    border-radius: 50%;
+    animation: geometricFloat 15s ease-in-out infinite;
+}
+
+.circle1 { width: 60px; height: 60px; top: 15%; left: 80%; animation-delay: 0s; }
+.circle2 { width: 40px; height: 40px; top: 55%; left: 10%; animation-delay: -3s; }
+.circle3 { width: 80px; height: 80px; bottom: 25%; right: 10%; animation-delay: -6s; }
+.circle4 { width: 50px; height: 50px; top: 75%; left: 70%; animation-delay: -9s; }
+
+.floating-square {
+    position: absolute;
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    animation: geometricRotate 12s linear infinite;
+}
+
+.square1 { width: 30px; height: 30px; top: 35%; left: 5%; animation-delay: 0s; }
+.square2 { width: 25px; height: 25px; bottom: 45%; right: 5%; animation-delay: -4s; }
+
+.floating-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid rgba(0, 217, 126, 0.2);
+    animation: triangleFloat 10s ease-in-out infinite;
+}
+
+.triangle1 { top: 40%; left: 85%; animation-delay: 0s; }
+.triangle2 { bottom: 35%; left: 25%; animation-delay: -3s; }
+.triangle3 { top: 80%; right: 30%; animation-delay: -6s; }
+
+.floating-hexagon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 123, 0, 0.1);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    animation: hexagonSpin 8s linear infinite;
+}
+
+.hex1 { top: 25%; right: 15%; animation-delay: 0s; }
+.hex2 { bottom: 55%; left: 35%; animation-delay: -4s; }
+
+/* 渐变光球 */
+.gradient-orbs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, 
+        rgba(44, 123, 229, 0.15) 0%, 
+        rgba(139, 92, 246, 0.1) 50%, 
+        transparent 100%);
+    animation: orbFloat 18s ease-in-out infinite;
+    filter: blur(1px);
+}
+
+.orb1 { width: 120px; height: 120px; top: 10%; left: 70%; animation-delay: 0s; }
+.orb2 { width: 80px; height: 80px; bottom: 30%; left: 20%; animation-delay: -4s; }
+.orb3 { width: 100px; height: 100px; top: 50%; right: 5%; animation-delay: -8s; }
+.orb4 { width: 60px; height: 60px; bottom: 10%; right: 40%; animation-delay: -12s; }
+.orb5 { width: 90px; height: 90px; top: 70%; left: 50%; animation-delay: -16s; }
+
+/* 连接线网络 */
+.connection-network {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.connection-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(44, 123, 229, 0.3), 
+        transparent);
+    animation: connectionPulse 6s ease-in-out infinite;
+}
+
+.line1 { width: 150px; top: 30%; left: 20%; transform: rotate(45deg); animation-delay: 0s; }
+.line2 { width: 120px; top: 60%; right: 25%; transform: rotate(-30deg); animation-delay: -1s; }
+.line3 { width: 100px; bottom: 40%; left: 60%; transform: rotate(60deg); animation-delay: -2s; }
+.line4 { width: 180px; top: 80%; left: 15%; transform: rotate(-15deg); animation-delay: -3s; }
+.line5 { width: 90px; top: 15%; right: 10%; transform: rotate(75deg); animation-delay: -4s; }
+
+.connection-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(44, 123, 229, 0.6);
+    border-radius: 50%;
+    animation: dotPulse 4s ease-in-out infinite;
+}
+
+.dot1 { top: 32%; left: 22%; animation-delay: 0s; }
+.dot2 { top: 62%; right: 27%; animation-delay: -0.5s; }
+.dot3 { bottom: 42%; left: 62%; animation-delay: -1s; }
+.dot4 { top: 82%; left: 17%; animation-delay: -1.5s; }
+.dot5 { top: 17%; right: 12%; animation-delay: -2s; }
+.dot6 { top: 45%; left: 75%; animation-delay: -2.5s; }
+
+/* 数字雨效果 */
+.digital-rain {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.rain-column {
+    position: absolute;
+    width: 2px;
+    height: 100px;
+    background: linear-gradient(180deg, 
+        transparent, 
+        rgba(0, 217, 126, 0.3), 
+        rgba(0, 217, 126, 0.1), 
+        transparent);
+    animation: rainFall 8s linear infinite;
+}
+
+.column1 { left: 15%; animation-delay: 0s; }
+.column2 { left: 35%; animation-delay: -2s; }
+.column3 { left: 55%; animation-delay: -4s; }
+.column4 { left: 75%; animation-delay: -6s; }
+.column5 { left: 85%; animation-delay: -1s; }
+
+/* 波浪装饰 */
+.wave-decorations {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(44, 123, 229, 0.05), 
+        transparent);
+    border-radius: 50% 50% 0 0;
+    animation: waveMotion 12s ease-in-out infinite;
+}
+
+.wave1 { animation-delay: 0s; }
+.wave2 { animation-delay: -4s; transform: scaleX(-1); }
+.wave3 { animation-delay: -8s; opacity: 0.5; }
+
+/* 动画关键帧定义 */
+@keyframes floatAndRotate {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translateY(-20px) rotate(90deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-10px) rotate(180deg);
+        opacity: 0.4;
+    }
+    75% {
+        transform: translateY(-30px) rotate(270deg);
+        opacity: 0.6;
+    }
+}
+
+@keyframes chartPulse {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scaleX(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scaleX(1.1);
+    }
+}
+
+@keyframes nodePulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+}
+
+@keyframes geometricFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    33% {
+        transform: translateY(-15px) rotate(120deg);
+        opacity: 0.5;
+    }
+    66% {
+        transform: translateY(-25px) rotate(240deg);
+        opacity: 0.4;
+    }
+}
+
+@keyframes geometricRotate {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 0.3;
+    }
+}
+
+@keyframes triangleFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+@keyframes hexagonSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+        opacity: 0.5;
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.3;
+    }
+}
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translate(0px, 0px) scale(1);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translate(10px, -15px) scale(1.1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translate(-5px, -25px) scale(0.9);
+        opacity: 0.5;
+    }
+    75% {
+        transform: translate(-15px, -10px) scale(1.05);
+        opacity: 0.4;
+    }
+}
+
+@keyframes connectionPulse {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scaleX(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scaleX(1.2);
+    }
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.4;
+        box-shadow: 0 0 0 0 rgba(44, 123, 229, 0.4);
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+        box-shadow: 0 0 0 8px rgba(44, 123, 229, 0);
+    }
+}
+
+@keyframes rainFall {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+@keyframes waveMotion {
+    0%, 100% {
+        transform: translateX(-100px) scaleY(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateX(100px) scaleY(1.2);
+        opacity: 0.5;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .animated-shape {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .chart-line {
+        width: 150px !important;
+    }
+
+    .gradient-orb {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .floating-circle {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .digital-rain {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .enhanced-background {
+        opacity: 0.7;
+    }
+
+    .data-visualization,
+    .connection-network {
+        opacity: 0.5;
+    }
+}
+
+/* 鼠标跟随光效 */
+.mouse-follower {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle,
+        rgba(44, 123, 229, 0.3) 0%,
+        rgba(44, 123, 229, 0.1) 50%,
+        transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: all 0.1s ease;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.mouse-follower.active {
+    opacity: 1;
+    animation: mouseGlow 2s ease-in-out infinite;
+}
+
+@keyframes mouseGlow {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.6;
+    }
+}
+
+/* 星空效果 */
+.starfield {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: starTwinkle 4s ease-in-out infinite;
+}
+
+.star1 { top: 10%; left: 20%; animation-delay: 0s; }
+.star2 { top: 25%; right: 15%; animation-delay: -0.5s; }
+.star3 { top: 40%; left: 70%; animation-delay: -1s; }
+.star4 { bottom: 30%; left: 30%; animation-delay: -1.5s; }
+.star5 { bottom: 15%; right: 25%; animation-delay: -2s; }
+.star6 { top: 60%; left: 10%; animation-delay: -2.5s; }
+.star7 { top: 80%; right: 40%; animation-delay: -3s; }
+.star8 { top: 15%; left: 85%; animation-delay: -3.5s; }
+.star9 { bottom: 50%; right: 10%; animation-delay: -4s; }
+.star10 { top: 70%; left: 50%; animation-delay: -4.5s; }
+
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+/* 页面进入动画 */
+.enhanced-background {
+    animation: backgroundFadeIn 2s ease-out;
+}
+
+@keyframes backgroundFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 特殊的悬停交互效果 */
+.register-container:hover ~ .enhanced-background .gradient-orb {
+    animation-duration: 8s;
+    opacity: 0.6;
+}
+
+.register-container:hover ~ .enhanced-background .data-node {
+    animation-duration: 1.5s;
+    transform: scale(1.2);
+}
+
+.register-container:hover ~ .enhanced-background .connection-line {
+    opacity: 0.8;
+    animation-duration: 3s;
+}
