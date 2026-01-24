@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExDebug Tool - 一体化便携测试系统</title>
+    
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="css/exbug-tool.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- 左侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <span class="logo-text">ExDebug</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <span class="nav-label">主要功能</span>
+                    <a href="data.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>数据可视化</span>
+                    </a>
+                    <a href="serial-debug.html" class="nav-item">
+                        <i class="fas fa-terminal"></i>
+                        <span>串口调试</span>
+                    </a>
+                    <a href="exbug-tool.html" class="nav-item active">
+                        <i class="fas fa-tools"></i>
+                        <span>设备控制台</span>
+                    </a>
+                    <a href="cloud-dashboard.html" class="nav-item">
+                        <i class="fas fa-cloud"></i>
+                        <span>云平台</span>
+                    </a>
+                </div>
+                
+                <div class="nav-group">
+                    <span class="nav-label">其他</span>
+                    <a href="feedback.html" class="nav-item">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>意见反馈</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">设备用户</span>
+                        <span class="user-status">在线</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部栏 -->
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1>设备控制台</h1>
+                    <p>ESP32-P4 + STM32F407 双核异构架构</p>
+                </div>
+                <div class="top-actions">
+                    <button class="btn btn-outline" onclick="refreshAllData()">
+                        <i class="fas fa-sync-alt"></i>
+                        刷新
+                    </button>
+                    <button class="btn btn-primary" onclick="syncToCloud()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        同步云端
+                    </button>
+                </div>
+            </header>
+
+            <!-- 内容区域 -->
+            <div class="content-area">
+                <!-- 状态卡片行 -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-fingerprint"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="deviceIdDisplay">--</span>
+                            <span class="stat-label">设备ID</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="currentTime">--:--:--</span>
+                            <span class="stat-label" id="currentDate">----年--月--日</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="chipTemp">--°C</span>
+                            <span class="stat-label">芯片温度</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="memoryUsage">--%</span>
+                            <span class="stat-label">内存使用</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 主要内容网格 -->
+                <div class="main-grid">
+                    <!-- 左侧：功能模块 -->
+                    <div class="modules-section">
+                        <div class="section-header">
+                            <h2>核心功能模块</h2>
+                            <span class="section-badge">5个模块</span>
+                        </div>
+                        
+                        <div class="modules-list">
+                            <!-- 数字示波器 -->
+                            <div class="module-item" onclick="openModule('oscilloscope')">
+                                <div class="module-icon blue">
+                                    <i class="fas fa-wave-square"></i>
+                                </div>
+                                <div class="module-info">
+                                    <h3>数字示波器</h3>
+                                    <p>7.2MSPS · 1MHz带宽 · ±12V输入</p>
+                                </div>
+                                <div class="module-status online">就绪</div>
+                                <i class="fas fa-chevron-right module-arrow"></i>
+                            </div>
+                            
+                            <!-- DDS信号发生器 -->
+                            <div class="module-item" onclick="openModule('generator')">
+                                <div class="module-icon green">
+                                    <i class="fas fa-signal"></i>
+                                </div>
+                                <div class="module-info">
+                                    <h3>DDS信号发生器</h3>
+                                    <p>AD9833 · 0.1Hz~12.5MHz · 多波形</p>
+                                </div>
+                                <div class="module-status online">就绪</div>
+                                <i class="fas fa-chevron-right module-arrow"></i>
+                            </div>
+                            
+                            <!-- 数字万用表 -->
+                            <div class="module-item" onclick="openModule('multimeter')">
+                                <div class="module-icon orange">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="module-info">
+                                    <h3>数字万用表</h3>
+                                    <p>±36V/±2A · 0.1%精度 · 自动量程</p>
+                                </div>
+                                <div class="module-status online">就绪</div>
+                                <i class="fas fa-chevron-right module-arrow"></i>
+                            </div>
+                            
+                            <!-- 数控直流电源 -->
+                            <div class="module-item" onclick="openModule('power')">
+                                <div class="module-icon red">
+                                    <i class="fas fa-car-battery"></i>
+                                </div>
+                                <div class="module-info">
+                                    <h3>数控直流电源</h3>
+                                    <p>0~12V/2A · CC/CV模式 · OVP/OCP</p>
+                                </div>
+                                <div class="module-status online">就绪</div>
+                                <i class="fas fa-chevron-right module-arrow"></i>
+                            </div>
+                            
+                            <!-- 无线串口透传 -->
+                            <div class="module-item" onclick="openModule('serial')">
+                                <div class="module-icon purple">
+                                    <i class="fas fa-wifi"></i>
+                                </div>
+                                <div class="module-info">
+                                    <h3>无线串口透传</h3>
+                                    <p>ESP32-C6 · WiFi6/BLE5.0 · OneNet</p>
+                                </div>
+                                <div class="module-status online">就绪</div>
+                                <i class="fas fa-chevron-right module-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：实时数据 -->
+                    <div class="realtime-section">
+                        <div class="section-header">
+                            <h2>实时数据监控</h2>
+                            <div class="chart-tabs">
+                                <button class="tab-btn active" data-range="1m">1分钟</button>
+                                <button class="tab-btn" data-range="5m">5分钟</button>
+                                <button class="tab-btn" data-range="30m">30分钟</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="realtimeChart"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <span class="legend-item"><i class="dot blue"></i> 电压 (V)</span>
+                            <span class="legend-item"><i class="dot green"></i> 电流 (mA)</span>
+                            <span class="legend-item"><i class="dot orange"></i> 功率 (W)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 底部信息行 -->
+                <div class="bottom-grid">
+                    <!-- 硬件状态 -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-microchip"></i> 硬件状态</h3>
+                        </div>
+                        <div class="hardware-list">
+                            <div class="hw-item">
+                                <div class="hw-dot online"></div>
+                                <span class="hw-name">ESP32-P4 主控</span>
+                                <span class="hw-spec">RISC-V 400MHz</span>
+                            </div>
+                            <div class="hw-item">
+                                <div class="hw-dot online"></div>
+                                <span class="hw-name">STM32F407 协处理</span>
+                                <span class="hw-spec">Cortex-M4 168MHz</span>
+                            </div>
+                            <div class="hw-item">
+                                <div class="hw-dot online"></div>
+                                <span class="hw-name">ESP32-C6 通信</span>
+                                <span class="hw-spec">WiFi6 + BLE5.0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 连接状态 -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-network-wired"></i> 连接状态</h3>
+                        </div>
+                        <div class="connection-list">
+                            <div class="conn-item">
+                                <i class="fas fa-wifi"></i>
+                                <span class="conn-name">WiFi</span>
+                                <span class="conn-status good" id="wifiStatus">已连接</span>
+                            </div>
+                            <div class="conn-item">
+                                <i class="fas fa-cloud"></i>
+                                <span class="conn-name">OneNet云平台</span>
+                                <span class="conn-status" id="cloudStatus">未连接</span>
+                            </div>
+                            <div class="conn-item">
+                                <i class="fas fa-usb"></i>
+                                <span class="conn-name">USB串口</span>
+                                <span class="conn-status good" id="usbStatus">正常</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 云端信息 -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-cloud"></i> 云端信息</h3>
+                        </div>
+                        <div class="cloud-info">
+                            <div class="cloud-item">
+                                <span class="cloud-label">产品ID</span>
+                                <span class="cloud-value">FCwDzD6VU0</span>
+                            </div>
+                            <div class="cloud-item">
+                                <span class="cloud-label">设备名称</span>
+                                <span class="cloud-value" id="deviceName">--</span>
+                            </div>
+                            <div class="cloud-item">
+                                <span class="cloud-label">最后同步</span>
+                                <span class="cloud-value" id="lastSync">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 活动日志 -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-history"></i> 活动日志</h3>
+                            <a href="#" class="view-all">查看全部</a>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <div class="activity-dot info"></div>
+                                <span class="activity-text">系统启动</span>
+                                <span class="activity-time">刚刚</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/exbug-tool.js"></script>
+</body>
+</html>

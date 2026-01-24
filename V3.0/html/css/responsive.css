@@ -1,0 +1,645 @@
+/**
+ * 响应式设计样式
+ */
+
+/* 通用响应式类 */
+.hide-on-mobile {
+    display: initial;
+}
+
+.show-on-mobile {
+    display: none;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    box-sizing: border-box;
+}
+
+/* 响应式网格布局 */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+
+/* 响应式间距调整 */
+.mb-sm-0 {
+    margin-bottom: 0;
+}
+
+.mt-sm-3 {
+    margin-top: 15px;
+}
+
+/* 大屏幕设备 (>=1200px) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+    
+    .col-xl-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    
+    .col-xl-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .col-xl-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .col-xl-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+    
+    .col-xl-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* 调整卡片网格 */
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* 主容器设置 */
+    .main-container {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+        transition: all 0.3s ease;
+    }
+    
+    .main-container.sidebar-collapsed {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+}
+
+/* 中等屏幕设备 (>=992px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+    
+    .col-lg-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .col-lg-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .col-lg-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+    
+    .col-lg-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* 调整卡片网格 */
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 图表网格 */
+    .chart-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 主容器设置 */
+    .main-container {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+    }
+    
+    .main-container.sidebar-collapsed {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+}
+
+/* 平板电脑 (>=768px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .col-md-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* 隐藏侧边栏文本 */
+    .sidebar {
+        width: 70px;
+    }
+    
+    .nav-text {
+        display: none;
+    }
+    
+    .nav-link {
+        justify-content: center;
+        padding: 12px 0;
+    }
+    
+    /* 调整导航栏 */
+    .navbar {
+        padding: 0 15px;
+    }
+    
+    .navbar-center {
+        display: none;
+    }
+    
+    .brand-name {
+        display: none;
+    }
+    
+    /* 调整卡片网格 */
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    /* 图表网格 */
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 特征卡片 */
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 主容器设置 */
+    .main-container {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+    
+    /* 调整页面头部 */
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .page-actions {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    /* 欢迎卡片 */
+    .welcome-card {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .welcome-illustration {
+        margin-top: 20px;
+        max-width: 60%;
+    }
+    
+    /* 切换侧边栏按钮样式 */
+    .menu-toggle {
+        display: flex;
+    }
+    
+    /* 显示/隐藏类 */
+    .hide-on-tablet {
+        display: none !important;
+    }
+    
+    .show-on-tablet {
+        display: initial !important;
+    }
+}
+
+/* 手机设备 (<768px) */
+@media (max-width: 767.98px) {
+    .container {
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .col-sm-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* 隐藏侧边栏 */
+    .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 1050;
+        width: 250px;
+        height: 100%;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .nav-text {
+        display: block;
+    }
+    
+    .nav-link {
+        justify-content: flex-start;
+        padding: 12px 20px;
+    }
+    
+    /* 添加遮罩 */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+    }
+    
+    .overlay.active {
+        display: block;
+    }
+    
+    /* 导航栏调整 */
+    .navbar {
+        padding: 0 10px;
+        height: 56px;
+    }
+    
+    .navbar-logo {
+        height: 28px;
+    }
+    
+    .brand-name {
+        display: none;
+    }
+    
+    .navbar-center {
+        display: none;
+    }
+    
+    .navbar-right {
+        gap: 5px;
+    }
+    
+    .user-name {
+        display: none;
+    }
+    
+    /* 调整主内容区 */
+    .content {
+        padding: 15px 10px;
+    }
+    
+    /* 主容器设置 */
+    .main-container {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 56px;
+        height: calc(100vh - 56px);
+    }
+    
+    /* 页面头部 */
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+    
+    .page-header h1 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    
+    .page-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* 欢迎卡片 */
+    .welcome-card {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    .welcome-content h2 {
+        font-size: 20px;
+    }
+    
+    .welcome-content p {
+        font-size: 14px;
+    }
+    
+    .welcome-illustration {
+        display: none;
+    }
+    
+    /* 卡片调整 */
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .card {
+        margin-bottom: 15px;
+    }
+    
+    .card-header {
+        padding: 12px;
+    }
+    
+    .card-body {
+        padding: 12px;
+    }
+    
+    /* 图表容器 */
+    .chart-container {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    /* 图表网格 */
+    .chart-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    /* 图表控制面板 */
+    .chart-panel {
+        padding: 10px;
+    }
+    
+    .chart-type-selector {
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none; /* 对Firefox */
+    }
+    
+    .chart-type-selector::-webkit-scrollbar {
+        display: none; /* 对Chrome和Safari */
+    }
+    
+    .chart-type-option {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .chart-controls-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    /* 特征卡片 */
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .feature-card {
+        padding: 15px;
+    }
+    
+    /* 数据导入区域 */
+    .data-import-container {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .import-tab {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .upload-zone {
+        padding: 20px 15px;
+    }
+    
+    .format-options {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 表单元素 */
+    .input-group input,
+    .chart-control-item select,
+    .chart-control-item input {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    /* 按钮样式 */
+    .btn {
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+    
+    .btn-icon {
+        padding: 8px;
+    }
+    
+    /* 登录/注册容器 */
+    .login-container {
+        width: 90%;
+        max-width: none;
+        padding: 25px 15px;
+    }
+    
+    /* 显示/隐藏类 */
+    .hide-on-mobile {
+        display: none !important;
+    }
+    
+    .show-on-mobile {
+        display: initial !important;
+    }
+}
+
+/* 超小屏幕设备 (<576px) */
+@media (max-width: 575.98px) {
+    .container {
+        padding: 0 8px;
+    }
+    
+    /* 登录容器调整 */
+    .login-container {
+        width: 95%;
+        padding: 20px 15px;
+    }
+    
+    .login-header h1 {
+        font-size: 22px;
+    }
+    
+    .login-subtitle {
+        font-size: 13px;
+    }
+    
+    /* 导航栏进一步调整 */
+    .navbar {
+        padding: 0 8px;
+    }
+    
+    .btn-icon {
+        padding: 6px;
+    }
+    
+    .avatar {
+        width: 32px;
+        height: 32px;
+    }
+    
+    /* 内容区域调整 */
+    .content {
+        padding: 10px 8px;
+    }
+    
+    /* 卡片进一步调整 */
+    .card-header h3,
+    .chart-header h3 {
+        font-size: 16px;
+    }
+    
+    /* 表单元素进一步调整 */
+    .input-group {
+        margin-bottom: 15px;
+    }
+    
+    /* 图表容器进一步调整 */
+    .chart-container {
+        padding: 12px;
+    }
+    
+    .chart-wrapper {
+        height: 250px;
+    }
+    
+    /* 工具提示和弹出框调整 */
+    .notification {
+        width: 90%;
+        max-width: 300px;
+    }
+    
+    /* 超窄屏幕隐藏额外元素 */
+    .feature-card p,
+    .chart-legend {
+        display: none;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    body {
+        background-color: #fff;
+    }
+    
+    .navbar,
+    .sidebar,
+    .page-actions,
+    .btn-icon,
+    .chart-controls {
+        display: none !important;
+    }
+    
+    .main-container {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 0;
+    }
+    
+    .content {
+        padding: 0;
+    }
+    
+    .chart-container {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    /* 强制背景色和图像打印 */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    body.auto-dark-mode {
+        --body-bg: #121212;
+        --body-color: #f5f5f5;
+        --dark-color: #f5f5f5;
+        --light-color: #1e1e1e;
+        --border-color: #333;
+        --card-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, 0.2);
+        
+        background-color: var(--body-bg);
+        color: var(--body-color);
+    }
+    
+    body.auto-dark-mode .navbar,
+    body.auto-dark-mode .sidebar,
+    body.auto-dark-mode .card,
+    body.auto-dark-mode .chart-container,
+    body.auto-dark-mode .data-import-container {
+        background-color: #1e1e1e;
+    }
+    
+    body.auto-dark-mode .card-header,
+    body.auto-dark-mode .chart-header {
+        border-bottom-color: #333;
+    }
+    
+    body.auto-dark-mode .btn-outline {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+    
+    body.auto-dark-mode .btn-icon {
+        color: #aaa;
+    }
+    
+    body.auto-dark-mode .btn-icon:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+} 

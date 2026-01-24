@@ -1,0 +1,5 @@
+version: "1.0.0"
+description: "GUI Guider generated LVGL interface"
+dependencies:
+  lvgl/lvgl: "^8.3.10"
+  espressif/esp_tinyusb: "^1.4.4"
