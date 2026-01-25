@@ -1,0 +1,22 @@
+# Build directories
+build/
+build_slave/
+
+# Cache directories
+.cache/
+
+# IDE settings
+.vscode/
+.kiro/
+
+# macOS
+.DS_Store
+
+# Dependencies lock file (can be regenerated)
+dependencies.lock
+
+# Managed components (can be downloaded via idf.py)
+managed_components/
+
+# Old config
+sdkconfig.old
