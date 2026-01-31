@@ -1,0 +1,12 @@
+{
+    "name": "ExDebug Tool",
+    "appid": "__UNI__EXDEBUG",
+    "description": "ExDebug Tool - 多功能调试器",
+    "versionName": "1.0.0",
+    "versionCode": "100",
+    "transformPx": false,
+    "uniCloud": {
+        "provider": "aliyun",
+        "spaceId": "mp-0770f041-88db-4ff4-b060-7e8f0e7baf68"
+    }
+}

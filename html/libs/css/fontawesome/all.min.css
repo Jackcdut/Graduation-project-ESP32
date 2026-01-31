@@ -1,0 +1,342 @@
+/*!
+ * Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+
+/* 字体定义 - 使用本地路径 */
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./webfonts/fa-regular-400.woff2") format("woff2"),
+       url("./webfonts/fa-regular-400.woff") format("woff"),
+       url("./webfonts/fa-regular-400.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("./webfonts/fa-solid-900.woff2") format("woff2"),
+       url("./webfonts/fa-solid-900.woff") format("woff"),
+       url("./webfonts/fa-solid-900.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./webfonts/fa-brands-400.woff2") format("woff2"),
+       url("./webfonts/fa-brands-400.woff") format("woff"),
+       url("./webfonts/fa-brands-400.ttf") format("truetype");
+}
+
+/* 核心样式 */
+.fa, .fas, .far, .fab, .fal, .fad, .fat, .fass {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.fas, .fa-solid {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+.far, .fa-regular {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fab, .fa-brands {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+/* 常用图标类 - 完整版本 */
+.fa-home:before { content: "\f015"; }
+.fa-user:before { content: "\f007"; }
+.fa-search:before { content: "\f002"; }
+.fa-upload:before { content: "\f093"; }
+.fa-download:before { content: "\f019"; }
+.fa-play:before { content: "\f04b"; }
+.fa-pause:before { content: "\f04c"; }
+.fa-stop:before { content: "\f04d"; }
+.fa-reset:before { content: "\f021"; }
+.fa-save:before { content: "\f0c7"; }
+.fa-cog:before { content: "\f013"; }
+.fa-settings:before { content: "\f013"; }
+.fa-gear:before { content: "\f013"; }
+.fa-chart-line:before { content: "\f201"; }
+.fa-chart-bar:before { content: "\f080"; }
+.fa-table:before { content: "\f0ce"; }
+.fa-file:before { content: "\f15b"; }
+.fa-file-excel:before { content: "\f1c3"; }
+.fa-file-image:before { content: "\f1c5"; }
+.fa-file-csv:before { content: "\f6dd"; }
+.fa-plus:before { content: "\f067"; }
+.fa-minus:before { content: "\f068"; }
+.fa-times:before { content: "\f00d"; }
+.fa-close:before { content: "\f00d"; }
+.fa-check:before { content: "\f00c"; }
+.fa-arrow-left:before { content: "\f060"; }
+.fa-arrow-right:before { content: "\f061"; }
+.fa-arrow-up:before { content: "\f062"; }
+.fa-arrow-down:before { content: "\f063"; }
+.fa-expand:before { content: "\f065"; }
+.fa-compress:before { content: "\f066"; }
+.fa-search-plus:before { content: "\f00e"; }
+.fa-search-minus:before { content: "\f010"; }
+.fa-arrows-alt-v:before { content: "\f338"; }
+.fa-compress-arrows-alt:before { content: "\f78c"; }
+.fa-expand-arrows-alt:before { content: "\f31e"; }
+.fa-eye:before { content: "\f06e"; }
+.fa-eye-slash:before { content: "\f070"; }
+.fa-edit:before { content: "\f044"; }
+.fa-trash:before { content: "\f2ed"; }
+.fa-sync:before { content: "\f021"; }
+.fa-refresh:before { content: "\f021"; }
+.fa-info:before { content: "\f129"; }
+.fa-warning:before { content: "\f071"; }
+.fa-exclamation:before { content: "\f12a"; }
+.fa-question:before { content: "\f128"; }
+.fa-menu:before { content: "\f0c9"; }
+.fa-bars:before { content: "\f0c9"; }
+.fa-link:before { content: "\f0c1"; }
+.fa-external-link:before { content: "\f35d"; }
+.fa-copy:before { content: "\f0c5"; }
+.fa-clipboard:before { content: "\f328"; }
+.fa-folder:before { content: "\f07b"; }
+.fa-folder-open:before { content: "\f07c"; }
+.fa-star:before { content: "\f005"; }
+.fa-heart:before { content: "\f004"; }
+.fa-thumbs-up:before { content: "\f164"; }
+.fa-thumbs-down:before { content: "\f165"; }
+.fa-comment:before { content: "\f075"; }
+.fa-comments:before { content: "\f086"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-phone:before { content: "\f095"; }
+.fa-calendar:before { content: "\f133"; }
+.fa-clock:before { content: "\f017"; }
+.fa-bell:before { content: "\f0f3"; }
+.fa-lock:before { content: "\f023"; }
+.fa-unlock:before { content: "\f09c"; }
+.fa-key:before { content: "\f084"; }
+.fa-shield:before { content: "\f132"; }
+.fa-database:before { content: "\f1c0"; }
+.fa-server:before { content: "\f233"; }
+.fa-cloud:before { content: "\f0c2"; }
+.fa-wifi:before { content: "\f1eb"; }
+.fa-signal:before { content: "\f012"; }
+.fa-microchip:before { content: "\f2db"; }
+.fa-code:before { content: "\f121"; }
+.fa-terminal:before { content: "\f120"; }
+.fa-bug:before { content: "\f188"; }
+.fa-wrench:before { content: "\f0ad"; }
+.fa-tools:before { content: "\f7d9"; }
+
+/* 扩展图标支持 - 确保所有项目中的图标都能显示 */
+.fa-list:before { content: "\f03a"; }
+.fa-th:before { content: "\f00a"; }
+.fa-th-list:before { content: "\f00b"; }
+.fa-sort:before { content: "\f0dc"; }
+.fa-sort-up:before { content: "\f0de"; }
+.fa-sort-down:before { content: "\f0dd"; }
+.fa-filter:before { content: "\f0b0"; }
+.fa-print:before { content: "\f02f"; }
+.fa-fullscreen:before { content: "\f065"; }
+.fa-minimize:before { content: "\f78c"; }
+.fa-maximize:before { content: "\f31e"; }
+.fa-window-restore:before { content: "\f2d2"; }
+.fa-undo:before { content: "\f0e2"; }
+.fa-redo:before { content: "\f01e"; }
+.fa-rotate-left:before { content: "\f2ea"; }
+.fa-rotate-right:before { content: "\f2f9"; }
+.fa-volume-up:before { content: "\f028"; }
+.fa-volume-down:before { content: "\f027"; }
+.fa-volume-off:before { content: "\f026"; }
+.fa-volume-mute:before { content: "\f6a9"; }
+.fa-brightness:before { content: "\f185"; }
+.fa-contrast:before { content: "\f042"; }
+.fa-zoom-in:before { content: "\f00e"; }
+.fa-zoom-out:before { content: "\f010"; }
+.fa-crosshairs:before { content: "\f05b"; }
+.fa-location:before { content: "\f601"; }
+.fa-map:before { content: "\f279"; }
+.fa-globe:before { content: "\f0ac"; }
+.fa-language:before { content: "\f1ab"; }
+.fa-translate:before { content: "\f1ab"; }
+.fa-keyboard:before { content: "\f11c"; }
+.fa-mouse:before { content: "\f8cc"; }
+.fa-gamepad:before { content: "\f11b"; }
+.fa-mobile:before { content: "\f3ce"; }
+.fa-tablet:before { content: "\f3fb"; }
+.fa-laptop:before { content: "\f109"; }
+.fa-desktop:before { content: "\f390"; }
+.fa-tv:before { content: "\f26c"; }
+.fa-headphones:before { content: "\f025"; }
+.fa-camera:before { content: "\f030"; }
+.fa-video:before { content: "\f03d"; }
+.fa-film:before { content: "\f008"; }
+.fa-image:before { content: "\f03e"; }
+.fa-images:before { content: "\f302"; }
+.fa-photo:before { content: "\f03e"; }
+.fa-picture:before { content: "\f03e"; }
+.fa-music:before { content: "\f001"; }
+.fa-microphone:before { content: "\f130"; }
+.fa-headset:before { content: "\f590"; }
+.fa-bluetooth:before { content: "\f293"; }
+.fa-usb:before { content: "\f287"; }
+.fa-ethernet:before { content: "\f796"; }
+
+/* 常用控制图标 */
+.fa-power-off:before { content: "\f011"; }
+.fa-restart:before { content: "\f021"; }
+.fa-shutdown:before { content: "\f011"; }
+.fa-eject:before { content: "\f052"; }
+.fa-fast-forward:before { content: "\f050"; }
+.fa-fast-backward:before { content: "\f049"; }
+.fa-step-forward:before { content: "\f051"; }
+.fa-step-backward:before { content: "\f048"; }
+.fa-record:before { content: "\f111"; }
+
+/* 状态和提示图标 */
+.fa-success:before { content: "\f00c"; }
+.fa-error:before { content: "\f00d"; }
+.fa-info-circle:before { content: "\f05a"; }
+.fa-exclamation-circle:before { content: "\f06a"; }
+.fa-question-circle:before { content: "\f059"; }
+.fa-exclamation-triangle:before { content: "\f071"; }
+.fa-check-circle:before { content: "\f058"; }
+.fa-times-circle:before { content: "\f057"; }
+.fa-plus-circle:before { content: "\f055"; }
+.fa-minus-circle:before { content: "\f056"; }
+
+/* 网络和连接图标 */
+.fa-network:before { content: "\f6ff"; }
+.fa-router:before { content: "\f6ff"; }
+.fa-antenna:before { content: "\f1eb"; }
+.fa-broadcast:before { content: "\f519"; }
+.fa-rss:before { content: "\f09e"; }
+.fa-feed:before { content: "\f09e"; }
+
+/* 设备和硬件图标 */
+.fa-chip:before { content: "\f2db"; }
+.fa-cpu:before { content: "\f2db"; }
+.fa-memory:before { content: "\f538"; }
+.fa-ram:before { content: "\f538"; }
+.fa-hard-drive:before { content: "\f0a0"; }
+.fa-hdd:before { content: "\f0a0"; }
+.fa-ssd:before { content: "\f0a0"; }
+
+/* 产品和设备认证图标 */
+.fa-cube:before { content: "\f1b2"; }
+.fa-cubes:before { content: "\f1b3"; }
+.fa-fingerprint:before { content: "\f577"; }
+.fa-id-card:before { content: "\f2c2"; }
+.fa-id-badge:before { content: "\f2c1"; }
+.fa-plug:before { content: "\f1e6"; }
+.fa-plug-circle-check:before { content: "\e55c"; }
+.fa-qrcode:before { content: "\f029"; }
+.fa-barcode:before { content: "\f02a"; }
+.fa-tag:before { content: "\f02b"; }
+.fa-tags:before { content: "\f02c"; }
+.fa-box:before { content: "\f466"; }
+.fa-boxes:before { content: "\f468"; }
+.fa-sitemap:before { content: "\f0e8"; }
+
+/* 开发和调试图标 */
+.fa-console:before { content: "\f120"; }
+.fa-cmd:before { content: "\f120"; }
+.fa-shell:before { content: "\f120"; }
+.fa-debug:before { content: "\f188"; }
+.fa-test:before { content: "\f0ae"; }
+.fa-api:before { content: "\f1c0"; }
+.fa-json:before { content: "\f1c9"; }
+.fa-xml:before { content: "\f1c9"; }
+.fa-csv:before { content: "\f6dd"; }
+
+/* 常用操作图标 */
+.fa-import:before { content: "\f56f"; }
+.fa-export:before { content: "\f56e"; }
+.fa-backup:before { content: "\f187"; }
+.fa-restore:before { content: "\f829"; }
+.fa-archive:before { content: "\f187"; }
+.fa-extract:before { content: "\f1c6"; }
+.fa-zip:before { content: "\f1c6"; }
+.fa-unzip:before { content: "\f1c6"; }
+
+/* 辅助类 */
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+/* 尺寸类 */
+.fa-xs { font-size: 0.75em; }
+.fa-sm { font-size: 0.875em; }
+.fa-lg { font-size: 1.33333em; line-height: 0.75em; vertical-align: -0.0667em; }
+.fa-xl { font-size: 1.5em; line-height: 0.6667em; vertical-align: -0.075em; }
+.fa-2x { font-size: 2em; }
+.fa-3x { font-size: 3em; }
+.fa-4x { font-size: 4em; }
+.fa-5x { font-size: 5em; }
+
+/* 旋转动画 */
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+
+@-webkit-keyframes fa-spin {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(359deg); transform: rotate(359deg); }
+}
+
+@keyframes fa-spin {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(359deg); transform: rotate(359deg); }
+}
+
+/* 脉动动画 */
+.fa-pulse {
+  -webkit-animation: fa-pulse 1s infinite;
+  animation: fa-pulse 1s infinite;
+}
+
+@-webkit-keyframes fa-pulse {
+  0% { -webkit-transform: scale(1); transform: scale(1); }
+  50% { -webkit-transform: scale(1.1); transform: scale(1.1); }
+  100% { -webkit-transform: scale(1); transform: scale(1); }
+}
+
+@keyframes fa-pulse {
+  0% { -webkit-transform: scale(1); transform: scale(1); }
+  50% { -webkit-transform: scale(1.1); transform: scale(1.1); }
+  100% { -webkit-transform: scale(1); transform: scale(1); }
+}

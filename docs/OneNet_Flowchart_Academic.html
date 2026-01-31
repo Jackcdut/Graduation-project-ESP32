@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备自动注册与激活流程图 - 学术论文版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', 'SimSun', 'STSong', serif;
+            background: #fff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .page {
+            background: #fff;
+            width: 100%;
+            max-width: 750px;
+        }
+        
+        .figure-caption {
+            text-align: center;
+            font-size: 10.5pt;
+            color: #000;
+            margin-top: 15px;
+            font-family: 'SimSun', 'STSong', serif;
+        }
+        
+        .figure-caption strong {
+            font-weight: normal;
+        }
+        
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+        
+        svg text {
+            font-family: 'SimSun', 'STSong', 'Times New Roman', serif;
+        }
+        
+        @media print {
+            body { padding: 0; }
+            .page { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <svg width="700" height="520" viewBox="0 0 700 520">
+            <defs>
+                <!-- 标准箭头 -->
+                <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#000"/>
+                </marker>
+            </defs>
+            
+            <!-- ========== 第一层：开始 ========== -->
+            <!-- 开始（圆角矩形） -->
+            <rect x="290" y="15" width="100" height="36" rx="18" ry="18" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="340" y="38" text-anchor="middle" font-size="12">设备上电</text>
+            
+            <!-- 箭头向下 -->
+            <line x1="340" y1="51" x2="340" y2="75" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- ========== 第二层：读取状态 ========== -->
+            <rect x="270" y="80" width="140" height="40" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="340" y="105" text-anchor="middle" font-size="12">从NVS读取激活状态</text>
+            
+            <!-- 箭头向下 -->
+            <line x1="340" y1="120" x2="340" y2="145" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- ========== 第三层：判断 ========== -->
+            <!-- 菱形判断框 -->
+            <polygon points="340,150 420,195 340,240 260,195" 
+                     fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="340" y="192" text-anchor="middle" font-size="12">设备已激活?</text>
+            
+            <!-- ========== 是分支（右侧） ========== -->
+            <!-- 是 标签 -->
+            <text x="435" y="192" font-size="11" fill="#000">是</text>
+            
+            <!-- 箭头向右 -->
+            <line x1="420" y1="195" x2="470" y2="195" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 加载凭证 -->
+            <rect x="475" y="175" width="100" height="40" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="525" y="200" text-anchor="middle" font-size="12">加载设备凭证</text>
+            
+            <!-- 箭头向右 -->
+            <line x1="575" y1="195" x2="615" y2="195" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 调用上线API -->
+            <rect x="620" y="175" width="70" height="40" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="655" y="192" text-anchor="middle" font-size="11">调用设备</text>
+            <text x="655" y="206" text-anchor="middle" font-size="11">上线API</text>
+            
+            <!-- 向下到结束 -->
+            <line x1="655" y1="215" x2="655" y2="470" stroke="#000" stroke-width="1.2"/>
+            
+            <!-- ========== 否分支（下方） ========== -->
+            <!-- 否 标签 -->
+            <text x="350" y="258" font-size="11" fill="#000">否</text>
+            
+            <!-- 箭头向下 -->
+            <line x1="340" y1="240" x2="340" y2="270" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 启动AP热点 -->
+            <rect x="270" y="275" width="140" height="40" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="340" y="300" text-anchor="middle" font-size="12">启动AP热点模式</text>
+            
+            <!-- 箭头向下 -->
+            <line x1="340" y1="315" x2="340" y2="340" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 启动HTTP服务器 -->
+            <rect x="260" y="345" width="160" height="40" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="340" y="370" text-anchor="middle" font-size="12">启动HTTP配置服务器</text>
+            
+            <!-- 箭头向下 -->
+            <line x1="340" y1="385" x2="340" y2="410" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 用户点击激活 -->
+            <!-- 平行四边形表示输入/输出 -->
+            <polygon points="270,415 430,415 410,455 250,455" 
+                     fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="340" y="440" text-anchor="middle" font-size="12">用户点击激活设备</text>
+            
+            <!-- 箭头向右 -->
+            <line x1="430" y1="435" x2="470" y2="435" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 调用创建API -->
+            <rect x="475" y="415" width="100" height="40" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="525" y="432" text-anchor="middle" font-size="11">调用设备</text>
+            <text x="525" y="447" text-anchor="middle" font-size="11">创建API</text>
+            
+            <!-- 箭头向右 -->
+            <line x1="575" y1="435" x2="600" y2="435" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- 保存到NVS（数据存储符号） -->
+            <path d="M 605 415 L 605 455 Q 605 465 640 465 Q 675 465 675 455 L 675 415 Q 675 405 640 405 Q 605 405 605 415 Q 605 425 640 425 Q 675 425 675 415" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="640" y="445" text-anchor="middle" font-size="10">保存凭证</text>
+            
+            <!-- 向下汇合 -->
+            <line x1="640" y1="465" x2="640" y2="470" stroke="#000" stroke-width="1.2"/>
+            
+            <!-- 水平汇合线 -->
+            <line x1="640" y1="470" x2="655" y2="470" stroke="#000" stroke-width="1.2"/>
+            
+            <!-- 汇合点 -->
+            <circle cx="647" cy="470" r="3" fill="#000"/>
+            
+            <!-- 向下到结束 -->
+            <line x1="647" y1="470" x2="647" y2="485" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
+            
+            <!-- ========== 结束 ========== -->
+            <rect x="587" y="490" width="120" height="36" rx="18" ry="18" 
+                  fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <text x="647" y="513" text-anchor="middle" font-size="12">进入正常工作</text>
+            
+            <!-- ========== 注释框 ========== -->
+            <!-- 左侧注释：AP配置信息 -->
+            <rect x="20" y="275" width="120" height="60" rx="3" 
+                  fill="none" stroke="#666" stroke-width="1" stroke-dasharray="4,2"/>
+            <text x="80" y="293" text-anchor="middle" font-size="9" fill="#333">SSID: ExDebugTool</text>
+            <text x="80" y="308" text-anchor="middle" font-size="9" fill="#333">IP: 192.168.4.1</text>
+            <text x="80" y="323" text-anchor="middle" font-size="9" fill="#333">Port: 80</text>
+            
+            <!-- 虚线连接 -->
+            <line x1="140" y1="305" x2="270" y2="295" stroke="#666" stroke-width="0.8" stroke-dasharray="3,2"/>
+            
+            <!-- 右侧注释：API信息 -->
+            <rect x="475" y="320" width="115" height="50" rx="3" 
+                  fill="none" stroke="#666" stroke-width="1" stroke-dasharray="4,2"/>
+            <text x="532" y="338" text-anchor="middle" font-size="9" fill="#333">OneNet HTTP API</text>
+            <text x="532" y="353" text-anchor="middle" font-size="9" fill="#333">POST /device/create</text>
+            <text x="532" y="368" text-anchor="middle" font-size="9" fill="#333">返回: did, sec_key</text>
+            
+            <!-- 虚线连接 -->
+            <line x1="532" y1="370" x2="525" y2="415" stroke="#666" stroke-width="0.8" stroke-dasharray="3,2"/>
+            
+        </svg>
+        
+        <p class="figure-caption">图 X  基于HTTP协议的设备自动注册与激活流程</p>
+    </div>
+</body>
+</html>
