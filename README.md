@@ -2,6 +2,18 @@
 
 基于 **ESP32-P4 + ESP32-C6 + STM32F407** 三芯片架构的多功能电子测量仪器开发板。
 
+## 📂 仓库分支结构
+
+本仓库按内容类型分支管理，请根据需要切换到对应分支：
+
+| 分支 | 内容 | 说明 |
+|------|------|------|
+| [`main`](../../tree/main) | 项目总览 | 当前分支，项目介绍和导航 |
+| [`esp32-firmware`](../../tree/esp32-firmware) | ESP32 固件 | ESP32-P4 主控程序、GUI界面、Web前端 |
+| [`stm32-firmware`](../../tree/stm32-firmware) | STM32 固件 | STM32F407 信号采集与处理代码 |
+| [`hardware`](../../tree/hardware) | 硬件设计 | 原理图、PCB、芯片手册、模板工程 |
+| [`docs`](../../tree/docs) | 项目文档 | 毕业论文、任务书、设计文档 |
+
 ## 🎯 项目简介
 
 本项目是一个集成多种电子测量功能的嵌入式系统，采用 ESP32-P4 作为主控负责 GUI 显示和用户交互，ESP32-C6 提供 WiFi 网络功能，STM32F407 负责高精度模拟信号采集与处理。
@@ -49,72 +61,42 @@
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## 📁 项目结构
+## 🔧 快速开始
 
-```
-├── main/                      # ESP32-P4 主程序
-│   └── main.c                 # 程序入口
-├── BSP/                       # 板级支持包
-│   ├── GUIDER/                # GUI Guider 界面代码
-│   │   ├── generated/         # 自动生成的 UI 代码
-│   │   └── custom/            # 自定义功能模块
-│   │       └── modules/
-│   │           ├── oscilloscope/      # 示波器模块
-│   │           ├── power_supply/      # 数控电源模块
-│   │           ├── stm32_comm/        # STM32 通信模块
-│   │           ├── cloud_manager/     # 云平台管理
-│   │           ├── wireless_serial/   # 无线串口
-│   │           └── ...
-│   └── common_components/     # 通用组件 (LCD/Touch驱动)
-├── stm32/                     # STM32F407 固件
-│   ├── BSP/
-│   │   ├── Communication/     # 通信协议
-│   │   ├── Oscilloscope/      # 示波器驱动
-│   │   ├── PowerSupply/       # 电源控制
-│   │   ├── Multimeter/        # 万用表驱动
-│   │   └── SignalGenerator/   # 信号发生器
-│   ├── Core/                  # STM32 HAL 代码
-│   └── MDK-ARM/               # Keil 工程文件
-├── html/                      # Web 仪表盘
-│   ├── cloud-dashboard.html   # 云端数据可视化
-│   ├── serial-debug.html      # Web 串口调试
-│   └── js/css/                # 前端资源
-├── matlab/                    # MATLAB 仿真模型
-│   └── CCCV_Power_Supply.slx  # CC/CV 电源仿真
-└── docs/                      # 项目文档
+### 获取代码
+
+```bash
+# 克隆仓库
+git clone git@github.com:Jackcdut/Graduation-project-ESP32.git
+cd Graduation-project-ESP32
+
+# 切换到 ESP32 固件分支
+git checkout esp32-firmware
+
+# 或切换到 STM32 固件分支
+git checkout stm32-firmware
 ```
 
-## 🔧 编译与烧录
+### 编译环境
 
-### 环境要求
-
-- ESP-IDF v5.3+
-- Keil MDK v5 (STM32)
+- ESP-IDF v5.3+ (ESP32 固件)
+- Keil MDK v5 (STM32 固件)
 - Python 3.8+
 
 ### ESP32-P4 主程序
 
 ```bash
-# 编译
+git checkout esp32-firmware
 idf.py build
-
-# 烧录并监控
 idf.py -p /dev/ttyUSB0 flash monitor
-```
-
-### ESP32-C6 从机程序
-
-```bash
-# 编译
-idf.py -B build_slave build
-
-# 烧录
-idf.py -B build_slave -p /dev/ttyUSB1 flash
 ```
 
 ### STM32F407 固件
 
-使用 Keil MDK 打开 `stm32/MDK-ARM/project.uvprojx` 进行编译和烧录。
+```bash
+git checkout stm32-firmware
+# 使用 Keil MDK 打开 stm32/MDK-ARM/project.uvprojx
+```
 
 ## 📡 通信协议
 
@@ -125,7 +107,7 @@ ESP32-P4 与 STM32 之间采用自定义串口协议通信：
         0xAA   1字节    2字节    N字节   1字节
 ```
 
-详细协议定义见 `stm32/BSP/Communication/comm_protocol.h`
+详细协议定义见 `stm32-firmware` 分支的 `stm32/BSP/Communication/comm_protocol.h`
 
 ## ✨ 功能特性
 
@@ -135,7 +117,6 @@ ESP32-P4 与 STM32 之间采用自定义串口协议通信：
 - 输入范围: ±50V (可调 PGA)
 - FFT 频谱分析
 - 自动测量 (Vpp, Freq, Duty 等)
-- 波形数据导出
 
 ### 数控电源
 - 输出电压: 0-28V
@@ -149,13 +130,6 @@ ESP32-P4 与 STM32 之间采用自定义串口协议通信：
 - 实时数据上报
 - 远程参数配置
 - Web 仪表盘可视化
-
-## 📚 文档
-
-- [项目结构说明](docs/PROJECT_STRUCTURE.md)
-- [示波器使用指南](docs/OSCILLOSCOPE_QUICK_TEST.md)
-- [网络模块说明](docs/NETWORK_MODULES.md)
-- [性能优化方案](docs/PERFORMANCE_OPTIMIZATION.md)
 
 ## 📄 许可证
 
