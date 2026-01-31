@@ -1,46 +1,34 @@
-# ESP-IDF Build Files
+# Build directories
 build/
 build_slave/
-sdkconfig.old
 
-# IDE Files
+# Cache directories
+.cache/
+
+# IDE settings
 .vscode/
-.idea/
-*.swp
-*.swo
-*~
+.kiro/
 
 # macOS
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# Thumbnails
-._*
+# Dependencies (can be downloaded via idf.py)
+managed_components/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
+# Old config
+sdkconfig.old
 
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-*.bak
-*.cache
-
-# Dependencies (managed by ESP-IDF component manager)
-managed_components/.component_hash
+# Dependencies lock file
 dependencies.lock
 
-# Compiled binaries
-*.bin
-*.elf
-*.map
+# STM32 build outputs
+stm32/MDK-ARM/project/
+stm32/MDK-ARM/DebugConfig/
+stm32/MDK-ARM/RTE/
+stm32/MDK-ARM/*.lst
+stm32/MDK-ARM/*.uvguix.*
+stm32/MDK-ARM/JLinkLog.txt
 
-# Editor backup files
-*~
-*.orig
+# MATLAB generated files
+matlab/slprj/
+matlab/*.slxc
