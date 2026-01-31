@@ -1,0 +1,6 @@
+{
+    "name": "onenet-verify",
+    "version": "1.0.0",
+    "description": "OneNet设备验证云函数",
+    "main": "index.js"
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ExDebug Tool - 设备登录</title>
+    <link rel="stylesheet" href="libs/css/fontawesome/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth-enhanced.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="libs/fonts/nunito/nunito.css" rel="stylesheet">
+    
+    <style>
+        /* 修复手机端闪烁 - 禁用动画 */
+        @media (max-width: 768px) {
+            .animated-shape,
+            .floating-circle,
+            .floating-square,
+            .floating-triangle,
+            .floating-dots,
+            .star,
+            .particle,
+            .geo-shape {
+                animation: none !important;
+                opacity: 0.3 !important;
+            }
+            
+            .login-page::before,
+            .login-page::after {
+                animation: none !important;
+            }
+            
+            .particles-container,
+            .stars-container,
+            .geometric-decorations {
+                display: none !important;
+            }
+        }
+        
+        /* 输入框图标样式 - 覆盖style.css中的emoji样式 */
+        .input-group .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            font-family: inherit !important;
+        }
+        
+        .input-group .input-icon i.fas,
+        .input-group .input-icon i.far,
+        .input-group .input-icon i.fab {
+            font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+            font-weight: 900 !important;
+            font-style: normal !important;
+            font-size: 16px !important;
+            color: #3b82f6 !important;
+            transition: all 0.3s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: inline-block !important;
+        }
+        
+        .input-group .input-icon i.fas::before,
+        .input-group .input-icon i.far::before,
+        .input-group .input-icon i.fab::before {
+            font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+            font-weight: 900 !important;
+        }
+        
+        .input-group:focus-within .input-icon i {
+            color: #2563eb !important;
+            transform: scale(1.1);
+        }
+        
+        /* 只读输入框样式 */
+        .input-group input[readonly] {
+            background-color: rgba(241, 245, 249, 0.9);
+            color: #64748b;
+        }
+        
+        .input-group input[readonly]:focus {
+            border-color: #e2e8f0;
+            box-shadow: none;
+            transform: none;
+            animation: none;
+        }
+    </style>
+</head>
+<body class="login-page">
+    <!-- 静态背景 - 移动端不显示动画 -->
+    <div class="animated-bg">
+        <div class="animated-shape shape1"></div>
+        <div class="animated-shape shape2"></div>
+        <div class="animated-shape shape3"></div>
+        <div class="animated-shape shape4"></div>
+    </div>
+
+    <div class="decoration-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-square"></div>
+        <div class="floating-triangle"></div>
+        <div class="floating-dots"></div>
+    </div>
+    
+    <div class="login-container">
+        <div class="login-content">
+            <div class="login-header">
+                <div class="logo-wrapper">
+                    <div class="logo data-analytics-logo">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="60" r="55" fill="none" stroke="url(#gradient1)" stroke-width="3" opacity="0.8"/>
+                            <g transform="translate(30, 25)">
+                                <rect x="10" y="10" width="40" height="50" rx="4" fill="none" stroke="url(#gradient2)" stroke-width="2.5"/>
+                                <rect x="15" y="15" width="30" height="25" rx="2" fill="url(#gradient3)" opacity="0.3"/>
+                                <path d="M 18 28 Q 23 20, 28 28 T 38 28" stroke="url(#gradient4)" stroke-width="2" fill="none"/>
+                                <circle cx="30" cy="50" r="4" fill="url(#gradient2)"/>
+                                <line x1="50" y1="30" x2="60" y2="30" stroke="url(#gradient4)" stroke-width="2"/>
+                                <circle cx="62" cy="30" r="3" fill="#00d9ff"/>
+                            </g>
+                            <defs>
+                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#2c7be5"/>
+                                    <stop offset="100%" style="stop-color:#00d9ff"/>
+                                </linearGradient>
+                                <linearGradient id="gradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#2c7be5;stop-opacity:0.9"/>
+                                    <stop offset="100%" style="stop-color:#1e6bb8"/>
+                                </linearGradient>
+                                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#2c7be5"/>
+                                    <stop offset="100%" style="stop-color:#00d9ff"/>
+                                </linearGradient>
+                                <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#2c7be5"/>
+                                    <stop offset="50%" style="stop-color:#00d9ff"/>
+                                    <stop offset="100%" style="stop-color:#ff7b00"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                <h1>ExDebug Tool</h1>
+                <p class="login-subtitle">多功能调试器 · OneNet云平台设备认证</p>
+                <div class="header-divider"></div>
+            </div>
+            
+            <div class="login-form">
+                <form id="loginForm">
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fas fa-cube"></i></span>
+                        <input type="text" id="productId" placeholder="产品ID (Product ID)" value="FCwDzD6VU0" readonly>
+                        <span class="input-focus-border"></span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fas fa-fingerprint"></i></span>
+                        <input type="text" id="authInfo" placeholder="设备ID (Device ID)" required>
+                        <span class="input-focus-border"></span>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" id="remember">
+                                记住设备信息
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn login-btn" id="loginBtn">
+                        <span class="btn-text"><i class="fas fa-plug"></i> 连接设备</span>
+                        <span class="btn-loader">
+                            <span class="loader-dot"></span>
+                            <span class="loader-dot"></span>
+                            <span class="loader-dot"></span>
+                        </span>
+                    </button>
+                </form>
+                
+                <div class="api-info">
+                    <p>基于 <a href="https://open.iot.10086.cn" target="_blank">OneNet物联网平台</a> 设备认证</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="copyright">
+        © 2025 ExDebug Tool | 多功能调试器 · 信号发生器 · 示波器 · 万用表 · 数控电源
+    </div>
+
+    <script src="js/onenet-auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数控电源CC/CV系统框图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            background: linear-gradient(135deg, #FFF8E7 0%, #FFF5DC 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            color: #E85D04;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            padding-left: 10px;
+            border-left: 4px solid #E85D04;
+        }
+        
+        .diagram {
+            background: #FFFDF5;
+            border: 2px dashed #666;
+            border-radius: 8px;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .main-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* 左侧输入 */
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 14px;
+            color: #333;
+            background: #F0F0F0;
+            padding: 15px 8px;
+            border-radius: 4px;
+            border: 1px solid #999;
+        }
+        
+        .input-arrow {
+            font-size: 20px;
+            color: #666;
+        }
+        
+        /* 输出模块 */
+        .output-block {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .output-item {
+            background: white;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 20px 25px;
+            text-align: center;
+            font-size: 15px;
+            position: relative;
+            min-width: 100px;
+        }
+        
+        .output-item::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+        
+        .output-item.voltage::before {
+            border-color: #E85D04;
+            background: #E85D04;
+        }
+        
+        .output-item.current::before {
+            border-color: #0066CC;
+            background: transparent;
+        }
+        
+        /* 保护模块区域 */
+        .protection-area {
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            background: #FAFAFA;
+        }
+        
+        .protection-item {
+            background: white;
+            border: 1.5px solid #888;
+            border-radius: 5px;
+            padding: 18px 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #444;
+        }
+        
+        /* CC/CV切换模块 */
+        .cccv-block {
+            background: white;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* DAC控制区 */
+        .dac-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .dac-block {
+            background: white;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 20px 15px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .dac-block.current {
+            border-color: #0066CC;
+        }
+        
+        .dac-block.voltage {
+            border-color: #E85D04;
+        }
+        
+        /* 连接箭头 */
+        .connector {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .connector-v {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+        }
+        
+        /* 反馈线路 */
+        .feedback-lines {
+            position: relative;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+        
+        .feedback-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        .feedback-label {
+            font-size: 13px;
+            color: #555;
+            background: #FFFDF5;
+            padding: 2px 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dashed-line {
+            flex: 1;
+            height: 0;
+            border-top: 2px dashed #666;
+            margin: 0 10px;
+        }
+        
+        .arrow-left {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 顶部反馈线 */
+        .top-feedback {
+            position: absolute;
+            top: -60px;
+            left: 120px;
+            right: 80px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bottom-feedback {
+            position: absolute;
+            bottom: -45px;
+            left: 120px;
+            right: 80px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* MCU标注 */
+        .mcu-label {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            font-size: 13px;
+            color: #666;
+            background: #F5F5F5;
+            padding: 20px 6px;
+            border-radius: 4px;
+            border: 1px dashed #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">数控电源 CC/CV 系统框图</h1>
+        
+        <div class="diagram">
+            <!-- 顶部电压反馈线 -->
+            <div class="top-feedback">
+                <span class="arrow-left">◄</span>
+                <span class="dashed-line"></span>
+                <span class="feedback-label">电压读取反馈 (V_fb)</span>
+                <span class="dashed-line"></span>
+            </div>
+            
+            <div class="main-content">
+                <!-- 输入电源 -->
+                <div class="input-section">
+                    <span class="input-label">外部电源输入</span>
+                    <span class="input-arrow">→</span>
+                </div>
+                
+                <!-- 输出模块 -->
+                <div class="output-block">
+                    <div class="output-item voltage">电压输出</div>
+                    <div class="output-item current">电流输出</div>
+                </div>
+                
+                <div class="connector">→</div>
+                
+                <!-- 保护电路区 -->
+                <div class="protection-area">
+                    <div class="protection-item">输入欠压<br>保护</div>
+                    <div class="protection-item">输出过流<br>保护</div>
+                    <div class="protection-item">输出防<br>反接</div>
+                    <div class="protection-item">过温保护</div>
+                </div>
+                
+                <div class="connector">→</div>
+                
+                <!-- CC/CV切换 -->
+                <div class="cccv-block">
+                    CC/CV<br>电路切换<br>
+                    <small style="color:#888;font-size:12px;">(二极管或门)</small>
+                </div>
+                
+                <div class="connector">←</div>
+                
+                <!-- DAC控制 -->
+                <div class="dac-section">
+                    <div class="dac-block current">电流控制<br>DAC<br><small style="color:#0066CC;">I_set</small></div>
+                    <div class="dac-block voltage">电压控制<br>DAC<br><small style="color:#E85D04;">V_set</small></div>
+                </div>
+                
+                <!-- MCU标注 -->
+                <div class="mcu-label">MCU 数字控制</div>
+            </div>
+            
+            <!-- 底部电流反馈线 -->
+            <div class="bottom-feedback">
+                <span class="arrow-left">◄</span>
+                <span class="dashed-line"></span>
+                <span class="feedback-label">电流读取反馈 (I_fb)</span>
+                <span class="dashed-line"></span>
+            </div>
+        </div>
+        
+        <!-- 图例说明 -->
+        <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 8px; border: 1px solid #ddd;">
+            <h3 style="font-size: 16px; color: #333; margin-bottom: 15px;">工作原理说明</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 14px; color: #555; line-height: 1.8;">
+                <div>
+                    <p><strong style="color: #E85D04;">● CV模式（恒压）</strong></p>
+                    <p>当 I_out < I_set 时，电压环控制</p>
+                    <p>输出电压 = V_set（设定值）</p>
+                </div>
+                <div>
+                    <p><strong style="color: #0066CC;">○ CC模式（恒流）</strong></p>
+                    <p>当 I_out ≥ I_set 时，电流环控制</p>
+                    <p>输出电流 = I_set（设定值）</p>
+                </div>
+            </div>
+            <p style="margin-top: 15px; font-size: 13px; color: #888;">
+                切换原理：二极管或门实现"低选控制"，输出较低电压的环路自动获得控制权，实现无缝平滑切换。
+            </p>
+        </div>
+    </div>
+</body>
+</html>
