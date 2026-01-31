@@ -1,0 +1,53 @@
+# ==========================================
+# 毕业设计项目 .gitignore 配置文件
+# ==========================================
+
+# ---------- 系统文件 ----------
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ---------- IDE 和编辑器 ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------- 编译输出 ----------
+build/
+*.o
+*.obj
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+
+# ---------- 临时文件 ----------
+*.tmp
+*.temp
+*.log
+*.bak
+
+# ---------- 备份文件 ----------
+*_backup/
+*.eprj_backup
+
+# ---------- ESP-IDF 相关 ----------
+sdkconfig.old
+dependencies.lock
+
+# ---------- STM32 相关 ----------
+MDK-ARM/*.uvguix.*
+MDK-ARM/DebugConfig/
+MDK-ARM/RTE/
+*.lst
+*.crf
+*.d
+*.dep
+*.axf
+*.lnp
+*.htm
+*.sct
+*.map
